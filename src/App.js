@@ -5,6 +5,7 @@ import Offers from "./pages/Offers";
 import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignOut from "./pages/SignOut";
+import Navbar from "./components/Navbar";
 
 
 function App() {
@@ -18,8 +19,8 @@ function App() {
                 <Route path={"/profile"} element={<Profile/>}/>
                 <Route path={"/sign-in"} element={<SignIn/>}/>
                 <Route path={"/sign-out"} element={<SignOut/>}/>
-
             </Routes>
+                <Navbar/>
         </Router>
     </>
   );
