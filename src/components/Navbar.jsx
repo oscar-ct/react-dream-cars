@@ -10,18 +10,18 @@ const Navbar = () => {
     return (
 
         // this is mobile first layout
-        <footer>
-            <nav>
-                <ul>
-                    <li>
+        <footer className={"nav-wrapper"}>
+            <nav className={"navbar"}>
+                <ul className={"nav-items"}>
+                    <li className={"nav-item"}>
                         <ExploreIcon fill={"black"} width={"36px"} height={"36px"}/>
                         <p>Explore</p>
                     </li>
-                    <li>
+                    <li className={"nav-item"}>
                         <OfferIcon fill={"black"} width={"36px"} height={"36px"}/>
                         <p>Offer</p>
                     </li>
-                    <li>
+                    <li className={"nav-item"}>
                         <PersonOutlineIcon fill={"black"} width={"36px"} height={"36px"}/>
                         <p>Profile</p>
                     </li>
