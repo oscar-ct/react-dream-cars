@@ -37,3 +37,14 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+.nav-item-name-active, .nav-item-name {
+    margin-top: 0.25rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: #8f8f8f;
+}
+
+.nav-item-name-active {
+    color: black;
+}

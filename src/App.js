@@ -14,8 +14,8 @@ function App() {
         <Router>
             <Routes>
                 <Route path={"/"} element={<Explore/>}/>
-                <Route path={"/offers"} element={<ForgotPassword/>}/>
-                <Route path={"/sign-in"} element={<Offers/>}/>
+                <Route path={"/offers"} element={<Offers/>}/>
+                <Route path={"/sign-in"} element={<ForgotPassword/>}/>
                 <Route path={"/profile"} element={<Profile/>}/>
                 <Route path={"/sign-in"} element={<SignIn/>}/>
                 <Route path={"/sign-out"} element={<SignOut/>}/>
