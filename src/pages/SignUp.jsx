@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 const SignUp = () => {
@@ -11,6 +13,8 @@ const SignUp = () => {
         password: "",
     });
 
+    const navigate = useNavigate();
+
     const { email, password, name } = formData;
 
     const onCredentialChange = (e) => {
@@ -20,13 +24,27 @@ const SignUp = () => {
         }));
     };
 
+    const submitNewUser = async (e) => {
+        e.preventDefault();
+        try {
+            const auth = getAuth();
+            await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(auth.currentUser, {
+                displayName: name,
+            });
+            navigate("/")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <div>
                 <header>
                     <p>Welcome Back</p>
                 </header>
-                <form>
+                <form onSubmit={submitNewUser}>
                     <input type={"text"} placeholder={"Name"} id={"name"} value={name} onChange={onCredentialChange}/>
 
                     <input type={"email"} placeholder={"Email"} id={"email"} value={email} onChange={onCredentialChange}/>
