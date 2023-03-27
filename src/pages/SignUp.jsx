@@ -4,6 +4,7 @@ import { ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRigh
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase.config"
+import { toast } from "react-toastify";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
 const SignUp = () => {
@@ -41,7 +42,7 @@ const SignUp = () => {
             await setDoc(doc(db, "users", user.uid), formDataCopy)
             navigate("/")
         } catch (error) {
-            console.log(error)
+            toast.error("Something went wrong");
         }
     }
 
