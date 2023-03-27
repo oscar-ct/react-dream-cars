@@ -62,7 +62,7 @@ const SignUp = () => {
                     </div>
 
                     <div>
-                        <p>Sign In</p>
+                        <p>Create Account</p>
                         <button><ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} /></button>
                     </div>
                 </form>

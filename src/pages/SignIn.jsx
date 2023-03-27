@@ -54,7 +54,7 @@ const SignIn = () => {
                         <button><ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} /></button>
                     </div>
                 </form>
-                <Link to={"/sign-up"}>Sign Up Instead</Link>
+                <Link to={"/sign-up"}>Create An Account</Link>
             </div>
         </>
     );
