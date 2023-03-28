@@ -38,35 +38,46 @@ const SignIn = () => {
 
     return (
         <>
-            <div>
+            <div className={"page-container"}>
                 <header>
-                    <p>Welcome Back</p>
+                    <p className={"page-header"}>Welcome Back,</p>
                 </header>
                 <form onSubmit={submitSignIn}>
                     <input
+                        className={"email-input"}
                         autoComplete={"username"}
                         type={"email"}
                         placeholder={"Email"}
                         id={"email"}
                         value={email}
                         onChange={onCredentialChange}/>
-                    <div>
+                    <div className={"password-input-div"}>
                         <input
+                            className={"password-input"}
                             autoComplete={"current-password"}
                             type={ showPassword ? "text" : "password"}
                             placeholder={"Password"}
                             id={"password"}
                             value={password}
                             onChange={onCredentialChange}/>
-                        <img src={visibilityIcon} alt={"show password"} onClick={() => setShowPassword(prevState => !prevState)}/>
+                        <img
+                            src={visibilityIcon}
+                            alt={"show password"}
+                            onClick={() => setShowPassword(prevState => !prevState)}
+                            className={"show-password"}
+                        />
                     </div>
-                    <Link to={"/forgot-password"}>Forgot Password</Link>
-                    <div>
-                        <p>Sign In</p>
-                        <button><ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} /></button>
+                    <Link className={"forgot-password-link"} to={"/forgot-password"}>Forgot Password
+                    </Link>
+                    <div className={"sign-in-bar"}>
+                        <p className={"sign-in-text"}>Sign In
+                        </p>
+                        <button className={"sign-in-button"}>
+                            <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} />
+                        </button>
                     </div>
                 </form>
-                <Link to={"/sign-up"}>Create An Account</Link>
+                <Link to={"/sign-up"} className={"register-link"}>Create An Account</Link>
             </div>
         </>
     );
