@@ -40,7 +40,7 @@ const ForgotPassword = () => {
                     onChange={setEmailChange}
                     />
                     <Link className={"forgot-password-link"} to={"/sign-in"}>
-                        Sign In
+                        Return To Sign In
                     </Link>
                     <div className={"sign-in-bar"}>
                         <div className={"sign-in-text"}>

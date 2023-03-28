@@ -86,7 +86,7 @@ const SignUp = () => {
                         />
                     </div>
                     <div className={"sign-up-bar"}>
-                        <p className={"sign-up-text"}>Create Account
+                        <p className={"sign-up-text"}>Sign Up
                         </p>
                         <button className={"sign-up-button"}>
                             <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"}/>
