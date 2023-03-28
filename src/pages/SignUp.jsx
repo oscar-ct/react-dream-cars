@@ -48,25 +48,59 @@ const SignUp = () => {
 
     return (
         <>
-            <div>
+            <div className={"page-container"}>
                 <header>
-                    <p>Welcome Back</p>
+                    <p className={"page-header"}>Create An Account
+                    </p>
                 </header>
                 <form onSubmit={submitNewUser}>
-                    <input type={"text"} placeholder={"Name"} id={"name"} value={name} onChange={onCredentialChange}/>
-
-                    <input type={"email"} placeholder={"Email"} id={"email"} value={email} onChange={onCredentialChange}/>
-                    <div>
-                        <input type={ showPassword ? "text" : "password"} placeholder={"Password"} id={"password"} value={password} onChange={onCredentialChange}/>
-                        <img src={visibilityIcon} alt={"show password"} onClick={() => setShowPassword(prevState => !prevState)}/>
+                    <input
+                        className={"name-input"}
+                        type={"text"}
+                        placeholder={"Name"}
+                        id={"name"}
+                        value={name}
+                        onChange={onCredentialChange}
+                    />
+                    <input
+                        className={"email-input"}
+                        type={"email"}
+                        placeholder={"Email"}
+                        id={"email"} value={email}
+                        onChange={onCredentialChange}
+                    />
+                    <div className={"password-input-div"}>
+                        <input
+                            className={"password-input"}
+                            type={ showPassword ? "text" : "password"}
+                            placeholder={"Password"}
+                            id={"password"}
+                            value={password}
+                            onChange={onCredentialChange}
+                        />
+                        <img
+                            className={"show-password"}
+                            src={visibilityIcon}
+                            alt={"show password"}
+                            onClick={() => setShowPassword(prevState => !prevState)}
+                        />
                     </div>
-
-                    <div>
-                        <p>Create Account</p>
-                        <button><ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} /></button>
+                    <div className={"sign-up-bar"}>
+                        <p className={"sign-up-text"}>Create Account
+                        </p>
+                        <button className={"sign-up-button"}>
+                            <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"}/>
+                        </button>
                     </div>
                 </form>
-                <Link to={"/sign-in"}>Sign In Instead</Link>
+                <div className={"register-link-wrapper"}>
+                    <span className={"register-text"}>
+                       Have an account?
+                    </span>
+                    <Link to={"/sign-in"} className={"register-link"}>
+                        Sign In
+                    </Link>
+                </div>
             </div>
         </>
     );

@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     return (
         <div className={"page-container"}>
             <header>
-                <p className={"page-header"}>Forgot Password</p>
+                <p className={"page-header"}>Reset Password</p>
             </header>
             <main>
                 <form onSubmit={onSubmitForgotPasswordReset}>
@@ -50,7 +50,6 @@ const ForgotPassword = () => {
                             <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} />
                         </button>
                     </div>
-
                 </form>
             </main>
         </div>

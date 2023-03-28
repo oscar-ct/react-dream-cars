@@ -67,7 +67,7 @@ const SignIn = () => {
                             className={"show-password"}
                         />
                     </div>
-                    <Link className={"forgot-password-link"} to={"/forgot-password"}>Forgot Password
+                    <Link className={"forgot-password-link"} to={"/forgot-password"}>Forgot Password?
                     </Link>
                     <div className={"sign-in-bar"}>
                         <p className={"sign-in-text"}>Sign In
@@ -77,7 +77,15 @@ const SignIn = () => {
                         </button>
                     </div>
                 </form>
-                <Link to={"/sign-up"} className={"register-link"}>Create An Account</Link>
+                <div className={"sign-in-wrapper"}>
+                    <span className={"sign-in-span"}>Don't have an account?
+                    </span>
+                    <Link to={"/sign-up"}>
+                        <button className={"sign-in-link-button"}>
+                            Sign Up
+                        </button>
+                    </Link>
+                </div>
             </div>
         </>
     );
