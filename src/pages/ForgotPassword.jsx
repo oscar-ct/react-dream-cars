@@ -45,11 +45,10 @@ const ForgotPassword = () => {
                     <div className={"sign-in-bar"}>
                         <div className={"sign-in-text"}>
                             Send Reset Link
-                            <button className={"sign-in_button"}>
-                                <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} />
-                            </button>
-
                         </div>
+                        <button className={"sign-in-button"}>
+                            <ArrowRightIcon fill={"white"} width={"34px"} height={"34px"} />
+                        </button>
                     </div>
 
                 </form>

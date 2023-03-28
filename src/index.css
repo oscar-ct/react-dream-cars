@@ -1,9 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
+* {
+    box-sizing: border-box;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
 
 body {
     font-family: 'Roboto', sans-serif;
+    background: black;
+    color: white;
 }
 
+a {
+    text-decoration: none;
+    display: block;
+    color: #000000;
+}
+button {
+    outline: none;
+    border: none;
+}
+
+
+/*NAVBAR*/
 .nav-wrapper {
     position: fixed;
     left: 0;
@@ -16,13 +37,11 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 .navbar {
     width: 100%;
     margin-top: 0.75rem;
     overflow-y: hidden;
 }
-
 .nav-items {
     margin: 0;
     padding: 0;
@@ -30,21 +49,80 @@ body {
     justify-content: space-evenly;
     align-items: center;
 }
-
 .nav-item {
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
 .nav-item-name-active, .nav-item-name {
     margin-top: 0.25rem;
     font-size: 14px;
     font-weight: 600;
     color: #8f8f8f;
 }
-
 .nav-item-name-active {
     color: black;
+}
+
+
+
+
+
+/*PASSWORD EMAIL INPUT FIELDS*/
+.page-container {
+    margin: 1rem;
+}
+
+.page-header {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.password-input,
+.email-input,
+.name-input {
+    box-shadow: rgba(0, 0, 0, 0.11);
+    border: none;
+    background: #ffffff;
+    border-radius: 3rem;
+    height: 3rem;
+    width: 100%;
+    outline: none;
+    padding: 0 3rem;
+    font-size: 1rem;
+}
+.email-input {
+    margin-bottom: 2rem;
+    background: url('./assets/svg/personIcon.svg') #ffffff 2.5% center no-repeat;
+}
+.forgot-password-link {
+    cursor: pointer;
+    color: #00cc66;
+    font-weight: 600;
+    text-align: right;
+}
+
+.sign-in-bar,
+.sign-out-bar {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: inherit;
+}
+.sign-in-text,
+.sign-up-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.sign-in-button,
+.sign-up-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: #00cc66;
+    border-radius: 50%;
 }
