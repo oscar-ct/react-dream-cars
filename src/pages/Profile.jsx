@@ -59,11 +59,12 @@ const Profile = () => {
             </header>
             <main>
                 <div className={"profile-details-header"}>
-                    <p className={"profile-details-text"}>Personal Details</p>
+                    <p className={"personal-details-text"}>Personal Details</p>
                     <p className={"change-personal-details"} onClick={() => {
                         changeDetails && submitChangeDetails();
                         setChangeDetails(prevState => !prevState);
-                    }}>{changeDetails ? "Done" : "Change"}</p>
+                    }}>{changeDetails ? "Done" : "Change"}
+                    </p>
                 </div>
                 <div className={"profile-card"}>
                     <form>
@@ -79,7 +80,7 @@ const Profile = () => {
                             type={"text"}
                             id={"email"}
                             className={!changeDetails ? "profile-email" : "profile-email-active"}
-                            disabled={!changeDetails}
+                            disabled={true}
                             value={email}
                             onChange={onChangePersonalDetails}
                         />
