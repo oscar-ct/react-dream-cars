@@ -43,9 +43,21 @@ const SignIn = () => {
                     <p>Welcome Back</p>
                 </header>
                 <form onSubmit={submitSignIn}>
-                    <input type={"email"} placeholder={"Email"} id={"email"} value={email} onChange={onCredentialChange}/>
+                    <input
+                        autoComplete={"username"}
+                        type={"email"}
+                        placeholder={"Email"}
+                        id={"email"}
+                        value={email}
+                        onChange={onCredentialChange}/>
                     <div>
-                        <input type={ showPassword ? "text" : "password"} placeholder={"Password"} id={"password"} value={password} onChange={onCredentialChange}/>
+                        <input
+                            autoComplete={"current-password"}
+                            type={ showPassword ? "text" : "password"}
+                            placeholder={"Password"}
+                            id={"password"}
+                            value={password}
+                            onChange={onCredentialChange}/>
                         <img src={visibilityIcon} alt={"show password"} onClick={() => setShowPassword(prevState => !prevState)}/>
                     </div>
                     <Link to={"/forgot-password"}>Forgot Password</Link>
