@@ -6,6 +6,7 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase.config"
 import { toast } from "react-toastify";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -63,6 +64,7 @@ const SignUp = () => {
                         onChange={onCredentialChange}
                     />
                     <input
+                        autoComplete={"email"}
                         className={"email-input"}
                         type={"email"}
                         placeholder={"Email"}
@@ -71,6 +73,7 @@ const SignUp = () => {
                     />
                     <div className={"password-input-div"}>
                         <input
+                            autoComplete={"new-password"}
                             className={"password-input"}
                             type={ showPassword ? "text" : "password"}
                             placeholder={"Password"}
@@ -93,6 +96,9 @@ const SignUp = () => {
                         </button>
                     </div>
                 </form>
+
+                <OAuth/>
+
                 <div className={"register-link-wrapper"}>
                     <span className={"register-text"}>
                        Have an account?

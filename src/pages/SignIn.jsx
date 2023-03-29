@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import OAuth from "../components/OAuth";
 
 
 
@@ -45,7 +46,7 @@ const SignIn = () => {
                 <form onSubmit={submitSignIn}>
                     <input
                         className={"email-input"}
-                        autoComplete={"username"}
+                        autoComplete={"email"}
                         type={"email"}
                         placeholder={"Email"}
                         id={"email"}
@@ -77,6 +78,9 @@ const SignIn = () => {
                         </button>
                     </div>
                 </form>
+
+                <OAuth/>
+
                 <div className={"sign-in-wrapper"}>
                     <span className={"sign-in-span"}>Don't have an account?
                     </span>
