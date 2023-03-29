@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { collection, getDocs, query, where, orderBy, limit, startAfter } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";
+import ListingItem from "../components/ListingItem";
 
 const Category = () => {
 
@@ -33,25 +34,30 @@ const Category = () => {
         fetchListings();
     }, [params.categoryName]);
     return (
-        <div>
-            <header>
+        <div className={"category"}>
+            <header className={"page-header"}>
                 <p>
                     {params.categoryName === "rent" ? "Vehicles for rent" : "Vehicles for sale"}
                 </p>
             </header>
-            {loading ? <h1>Loading...</h1> : listings && listings.length > 0 ?
-            <>
-                <main>
-                    <ul>
-                        {listings.map(function (listing) {
-                                return <h3 key={listing.id}>{listing.data.name}</h3>
-                            }
-                        )}
-                    </ul>
-                </main>
-            </> : <p>
-                No listings for {params.categoryName}
-            </p>}
+            {loading ?
+                <h1>Loading...</h1>
+                : listings && listings.length > 0 ?
+                    <>
+                        <main>
+                            <ul className={"category-listings"}>
+                                {listings.map(function (listing) {
+                                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
+                                    }
+                                )}
+                            </ul>
+                        </main>
+                    </>
+                    :
+                    <p>
+                        No listings for {params.categoryName}
+                    </p>
+            }
         </div>
     );
 };
