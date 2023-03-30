@@ -329,7 +329,6 @@ input:-webkit-autofill:active {
     margin-bottom: 1rem;
     position: relative;
 }
-
 .category-listing-link {
     display: contents;
 }
@@ -367,4 +366,22 @@ input:-webkit-autofill:active {
 .category-listing-info-text {
     font-weight: 500;
     font-size: 0.7rem;
+}
+
+
+
+
+
+/*CREATE LISTING*/
+.create-listing {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 0.25rem 1rem;
+    box-shadow: rgba(0, 0, 0, 0.2);
+    margin-top: 2rem;
+    font-weight: 600;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
