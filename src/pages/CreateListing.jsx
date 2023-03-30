@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
     const [loading, setLoading] = useState(false);
-    const [geolocationEnabled, setGeolocationEnabled] = useState(false);
+    const [geolocationEnabled, setGeolocationEnabled] = useState(true);
     const [formData, setFormData] = useState({
         type: "rent",
         name: "",
@@ -15,13 +15,13 @@ const CreateListing = () => {
         address: "",
         offer: false,
         regularPrice: 0,
-        discountPrice: 0,
+        discountedPrice: 0,
         images: {},
         lat: 0,
         lon: 0,
     });
 
-    const { type, name, year, mileage, model, make, address, offer, regularPrice, discountPrice,  images, lat, lon } = formData;
+    const { type, name, year, mileage, model, make, address, offer, regularPrice, discountedPrice,  images, lat, lon } = formData;
 
 
     const auth = getAuth();
@@ -45,10 +45,36 @@ const CreateListing = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        console.log(formData)
     }
+
     const onMutate = (e) => {
-        e.preventDefault();
-    }
+        let bool = null;
+        if (e.target.value === "yes") {
+            bool = true;
+        } else if (e.target.value === "no") {
+            bool = false;
+        }
+        if (e.target.files) {
+            setFormData(prevState => {
+                return {
+                    ...prevState,
+                    images: e.target.files,
+                };
+            });
+        } else if (!e.target.files) {
+            setFormData(prevState => {
+                return {
+                    ...prevState,
+                    [e.target.id]: bool ?? e.target.value,
+                };
+            });
+        }
+    };
+
+
+
+
 
     if (loading) {
         return <h1>Loading...</h1>
@@ -85,6 +111,7 @@ const CreateListing = () => {
 
                     <label>Title</label>
                     <input
+                        autoComplete={"off"}
                         type={"text"}
                         id={"name"}
                         value={name}
@@ -176,16 +203,16 @@ const CreateListing = () => {
                         <button
                             type={"button"}
                             id={"offer"}
-                            value={true}
-                            onChange={onMutate}
+                            value={"yes"}
+                            onClick={onMutate}
                         >
                             Yes
                         </button>
                         <button
                             type={"button"}
                             id={"offer"}
-                            value={false}
-                            onChange={onMutate}
+                            value={"no"}
+                            onClick={onMutate}
                         >
                             No
                         </button>
@@ -213,7 +240,7 @@ const CreateListing = () => {
                             <input
                                 type={"number"}
                                 id={"discountedPrice"}
-                                value={discountPrice}
+                                value={discountedPrice}
                                 onChange={onMutate}
                                 min={50}
                                 max={750000000}
