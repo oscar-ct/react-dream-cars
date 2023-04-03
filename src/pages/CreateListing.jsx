@@ -4,6 +4,8 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { db } from "../firebase.config";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { collection, serverTimestamp, addDoc } from "firebase/firestore";
+import {toast} from "react-toastify";
 
 
 
@@ -50,78 +52,6 @@ const CreateListing = () => {
        }
     }, [isMounted]);
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        if (discountedPrice >= regularPrice) {
-            // error
-            console.log("Discounted price must be lower than regular price")
-        } else if (images.length > 6) {
-            // error
-            console.log("Max 6 images");
-        } else {
-
-            let geolocation = {};
-            let location;
-
-            if (geolocationEnabled) {
-                const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${MAPBOX_TOKEN}`);
-                const data = await response.json();
-                if (data.features.length === 0) {
-                    console.log("invalid address");
-                } else {
-                    const coord = data.features[0];
-                    geolocation.lat = coord.center[1];
-                    geolocation.lon = coord.center[0];
-                    location = coord.place_name;
-                    console.log(coord);
-                }
-            } else {
-                geolocation.lat = lat;
-                geolocation.lon = lon;
-                location = address;
-            }
-
-
-            try {
-                await Promise.all(
-                    [...images].map(function (img) {
-                        return storeImages(img);
-                    }));
-            } catch (e) {
-                setLoading(false);
-                console.log("error, images no uploaded!!!", e);
-            }
-        }
-
-        setLoading(false);
-    }
-
-    const onMutate = (e) => {
-        let bool = null;
-        if (e.target.value === "yes") {
-            bool = true;
-        } else if (e.target.value === "no") {
-            bool = false;
-        }
-        if (e.target.files) {
-            setFormData(prevState => {
-                return {
-                    ...prevState,
-                    images: e.target.files,
-                };
-            });
-        } else if (!e.target.files) {
-            setFormData(prevState => {
-                return {
-                    ...prevState,
-                    [e.target.id]: bool ?? e.target.value,
-                };
-            });
-        }
-    };
-
-
 
     const storeImages = async (image) => {
         return new Promise(function (resolve, reject) {
@@ -167,7 +97,112 @@ const CreateListing = () => {
         });
     }
 
+    const getCoordinates = async () => {
+        let geolocation = {};
+        let location = "";
 
+        if (geolocationEnabled) {
+            const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${MAPBOX_TOKEN}`);
+            const data = await response.json();
+            if (data.features.length === 0) {
+                // error
+                console.log("invalid address");
+            } else {
+                const coord = data.features[0];
+                geolocation.lat = coord.center[1];
+                geolocation.lon = coord.center[0];
+                location = coord.place_name;
+                console.log(coord);
+                // verify
+            }
+        } else {
+            geolocation.lat = lat;
+            geolocation.lon = lon;
+            location = address;
+        }
+        return {
+            location,
+            geolocation,
+        }
+    }
+
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        if (discountedPrice >= regularPrice) {
+            // error
+            console.log("Discounted price must be lower than regular price")
+        } else if (images.length > 6) {
+            // error
+            console.log("Max 6 images");
+        } else {
+            const locationObj = await getCoordinates().catch(function () {
+                setLoading(false);
+                console.log("error, geolocation failed!!!");
+            });
+            console.log(locationObj);
+            if (locationObj.location !== "") {
+                const verifiedAddress = window.confirm(`Please confirm address: ${locationObj.location}`);
+                if (verifiedAddress) {
+                    const imageUrls =  await Promise.all(
+                        [...images].map(function (img) {
+                            return storeImages(img);
+                        })).catch(function () {
+                        setLoading(false);
+                        console.log("error, images no uploaded!!!");
+                    });
+                    const formDataCopy = {
+                        ...formData,
+                        imageUrls: imageUrls,
+                        geolocation: locationObj.geolocation,
+                        timestamp: serverTimestamp(),
+                    }
+                    delete formDataCopy.images;
+                    delete formDataCopy.address;
+                    delete formDataCopy.lat;
+                    delete formDataCopy.lon;
+                    locationObj.location && (formDataCopy.location = locationObj.location);
+                    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+
+                    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+                    setLoading(false);
+                    toast.success("Listing saved!")
+                    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+                }
+            } else {
+                // error
+                toast.error("Error, address is not valid");
+            }
+        }
+        setLoading(false);
+    }
+
+
+    const onMutate = (e) => {
+        let bool = null;
+        if (e.target.value === "yes") {
+            bool = true;
+        } else if (e.target.value === "no") {
+            bool = false;
+        }
+        if (e.target.files) {
+            setFormData(prevState => {
+                return {
+                    ...prevState,
+                    images: e.target.files,
+                };
+            });
+        } else if (!e.target.files) {
+            setFormData(prevState => {
+                return {
+                    ...prevState,
+                    [e.target.id]: bool ?? e.target.value,
+                };
+            });
+        }
+    };
 
 
 
@@ -224,7 +259,7 @@ const CreateListing = () => {
                                 id={"year"}
                                 value={year}
                                 onChange={onMutate}
-                                min={1}
+                                min={1900}
                                 max={2023}
                                 required
                             />
