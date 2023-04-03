@@ -11,7 +11,6 @@ import {toast} from "react-toastify";
 
 const CreateListing = () => {
     const [loading, setLoading] = useState(false);
-    const [geolocationEnabled, setGeolocationEnabled] = useState(true);
     const [formData, setFormData] = useState({
         type: "rent",
         name: "",
@@ -27,6 +26,7 @@ const CreateListing = () => {
         lat: 0,
         lon: 0,
     });
+    const geolocationEnabled = useRef(true);
 
     const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN
 
@@ -50,7 +50,8 @@ const CreateListing = () => {
        return function () {
            isMounted.current = false;
        }
-    }, [isMounted]);
+        // eslint-disable-next-line
+    }, []);
 
 
     const storeImages = async (image) => {
@@ -211,17 +212,18 @@ const CreateListing = () => {
     }
 
     return (
-        <div>
+        <div className={"profile"}>
            <header>
-               <p>
+               <p className={"page-header"}>
                     Create a listing
                </p>
            </header>
             <main>
                 <form onSubmit={onSubmit}>
-                    <label>Sell / Rent</label>
-                    <div>
+                    <label className={"form-label"}>Sell / Rent</label>
+                    <div className={"form-buttons"}>
                         <button
+                            className={type === "sale" ? "form-button-active" : "form-button"}
                             type={"button"}
                             id={"type"}
                             value={"sale"}
@@ -230,6 +232,7 @@ const CreateListing = () => {
                             Sell
                         </button>
                         <button
+                            className={type === "rent" ? "form-button-active" : "form-button"}
                             type={"button"}
                             id={"type"}
                             value={"rent"}
@@ -239,8 +242,9 @@ const CreateListing = () => {
                         </button>
                     </div>
 
-                    <label>Title</label>
+                    <label className={"form-label"}>Title</label>
                     <input
+                        className={"form-input-name"}
                         autoComplete={"off"}
                         type={"text"}
                         id={"name"}
@@ -251,10 +255,11 @@ const CreateListing = () => {
                         required
                     />
 
-                    <div>
+                    <div className={"flex"}>
                         <div>
-                            <label>Year</label>
+                            <label className={"form-label"}>Year</label>
                             <input
+                                className={"form-input-small"}
                                 type={"number"}
                                 id={"year"}
                                 value={year}
@@ -263,8 +268,11 @@ const CreateListing = () => {
                                 max={2023}
                                 required
                             />
-                            <label>Mileage</label>
+                        </div>
+                        <div>
+                            <label className={"form-label"}>Mileage</label>
                             <input
+                                className={"form-input-small"}
                                 type={"number"}
                                 id={"mileage"}
                                 value={mileage}
@@ -276,61 +284,72 @@ const CreateListing = () => {
                         </div>
                     </div>
 
-                    <label>Make</label>
-                    <input
-                        type={"text"}
-                        id={"make"}
-                        value={make}
-                        onChange={onMutate}
-                        maxLength={32}
-                        minLength={1}
-                        required
-                    />
-                    <label>Model</label>
-                    <input
-                        type={"text"}
-                        id={"model"}
-                        value={model}
-                        onChange={onMutate}
-                        maxLength={32}
-                        minLength={1}
-                        required
-                    />
-                    <label>Address</label>
+                    <div className={"flex"}>
+                        <div>
+                            <label className={"form-label"}>Make</label>
+                            <input
+                                className={"form-input"}
+                                type={"text"}
+                                id={"make"}
+                                value={make}
+                                onChange={onMutate}
+                                maxLength={32}
+                                minLength={1}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className={"form-label"}>Model</label>
+                            <input
+                                className={"form-input"}
+                                type={"text"}
+                                id={"model"}
+                                value={model}
+                                onChange={onMutate}
+                                maxLength={32}
+                                minLength={1}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <label className={"form-label"}>Address</label>
                     <textarea
+                        className={"form-input-address"}
                         id={"address"}
                         value={address}
                         onChange={onMutate}
                         required
                     />
-                    {!geolocationEnabled && (
-                        <div>
-                            <div>
-                                <label>Latitude</label>
-                                <input
-                                    type={"number"}
-                                    id={"lat"}
-                                    value={lat}
-                                    onChange={onMutate}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Longitude</label>
-                                <input
-                                    type={"number"}
-                                    id={"lon"}
-                                    value={lon}
-                                    onChange={onMutate}
-                                    required
-                                />
-                            </div>
-                        </div>
-                    )}
+                    {/*{!geolocationEnabled && (*/}
+                    {/*    <div>*/}
+                    {/*        <div>*/}
+                    {/*            <label>Latitude</label>*/}
+                    {/*            <input*/}
+                    {/*                type={"number"}*/}
+                    {/*                id={"lat"}*/}
+                    {/*                value={lat}*/}
+                    {/*                onChange={onMutate}*/}
+                    {/*                required*/}
+                    {/*            />*/}
+                    {/*        </div>*/}
+                    {/*        <div>*/}
+                    {/*            <label>Longitude</label>*/}
+                    {/*            <input*/}
+                    {/*                type={"number"}*/}
+                    {/*                id={"lon"}*/}
+                    {/*                value={lon}*/}
+                    {/*                onChange={onMutate}*/}
+                    {/*                required*/}
+                    {/*            />*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
 
-                    <label>Offer</label>
-                    <div>
+                    <label className={"form-label"}>Offer</label>
+                    <div className={"form-buttons"}>
                         <button
+                            className={offer ? "form-button-active" : "form-button"}
                             type={"button"}
                             id={"offer"}
                             value={"yes"}
@@ -339,6 +358,7 @@ const CreateListing = () => {
                             Yes
                         </button>
                         <button
+                            className={!offer && offer !== null ? "form-button-active" : "form-button"}
                             type={"button"}
                             id={"offer"}
                             value={"no"}
@@ -348,9 +368,10 @@ const CreateListing = () => {
                         </button>
                     </div>
 
-                    <label>Regular Price</label>
-                    <div>
+                    <label className={"form-label"}>Regular Price</label>
+                    <div className={"form-price-div"}>
                         <input
+                            className={"form-input-small"}
                             type={"number"}
                             id={"regularPrice"}
                             value={regularPrice}
@@ -360,30 +381,37 @@ const CreateListing = () => {
                             required
                         />
                         {type === "rent" && (
-                            <p>$ / Day</p>
+                            <p className={"form-price-text"}>$ / Day</p>
                         )}
                     </div>
 
                     {offer && (
                         <>
-                            <label>Discounted Price</label>
-                            <input
-                                type={"number"}
-                                id={"discountedPrice"}
-                                value={discountedPrice}
-                                onChange={onMutate}
-                                min={50}
-                                max={750000000}
-                                required={offer}
-                            />
+                            <label className={"form-label"}>Discounted Price</label>
+                            <div className={"form-price-div"}>
+                                <input
+                                    className={"form-input-small"}
+                                    type={"number"}
+                                    id={"discountedPrice"}
+                                    value={discountedPrice}
+                                    onChange={onMutate}
+                                    min={50}
+                                    max={750000000}
+                                    required={offer}
+                                />
+                                {type === "rent" && (
+                                    <p className={"form-price-text"}>$ / Day</p>
+                                )}
+                            </div>
                         </>
                     )}
 
-                    <label>Images</label>
-                    <p>
+                    <label className={"form-label"}>Images</label>
+                    <p className={"images-info"}>
                         The first image will be the cover (max 6).
                     </p>
                     <input
+                        className={"form-input-file"}
                         type={"file"}
                         id={"images"}
                         onChange={onMutate}
@@ -393,6 +421,7 @@ const CreateListing = () => {
                         required={true}
                     />
                     <button
+                        className={"primary-button create-listing-button"}
                         type={"submit"}
                     >
                         Create Listing
