@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db } from "../firebase.config";
+import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 
 
@@ -51,31 +54,46 @@ const CreateListing = () => {
         e.preventDefault();
         setLoading(true);
         if (discountedPrice >= regularPrice) {
+            // error
             console.log("Discounted price must be lower than regular price")
         } else if (images.length > 6) {
+            // error
             console.log("Max 6 images");
-        }
-
-        let geolocation = {};
-        let location;
-
-        if (geolocationEnabled) {
-            const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${MAPBOX_TOKEN}`);
-            const data = await response.json();
-            if (data.features.length === 0) {
-                console.log("invalid address");
-            } else {
-                const coord = data.features[0];
-                geolocation.lat = coord.center[1];
-                geolocation.lon = coord.center[0];
-                location = coord.place_name;
-                console.log(coord);
-            }
         } else {
-            geolocation.lat = lat;
-            geolocation.lon = lon;
-            location = address;
+
+            let geolocation = {};
+            let location;
+
+            if (geolocationEnabled) {
+                const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${MAPBOX_TOKEN}`);
+                const data = await response.json();
+                if (data.features.length === 0) {
+                    console.log("invalid address");
+                } else {
+                    const coord = data.features[0];
+                    geolocation.lat = coord.center[1];
+                    geolocation.lon = coord.center[0];
+                    location = coord.place_name;
+                    console.log(coord);
+                }
+            } else {
+                geolocation.lat = lat;
+                geolocation.lon = lon;
+                location = address;
+            }
+
+
+            try {
+                await Promise.all(
+                    [...images].map(function (img) {
+                        return storeImages(img);
+                    }));
+            } catch (e) {
+                setLoading(false);
+                console.log("error, images no uploaded!!!", e);
+            }
         }
+
         setLoading(false);
     }
 
@@ -102,6 +120,52 @@ const CreateListing = () => {
             });
         }
     };
+
+
+
+    const storeImages = async (image) => {
+        return new Promise(function (resolve, reject) {
+            const storage = getStorage();
+            const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+            const storageRef = ref(storage, "images/" + fileName);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    reject(error)
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                    }
+                },
+                () => {
+                    // Upload completed successfully, now we can get the download URL
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                        console.log('File available at', downloadURL);
+                    });
+                }
+            );
+        });
+    }
 
 
 
