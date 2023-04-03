@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams  } from "react-router-dom";
+import {useState, useEffect, useRef} from 'react';
+import { Link, useParams  } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase.config";
+
 import shareIcon from "../assets/svg/shareIcon.svg"
+import MapContainer from "../components/MapContainer";
+
+
 
 const Listing = () => {
 
@@ -11,23 +15,24 @@ const Listing = () => {
     const [loading, setLoading] = useState(true);
     const [shareLinkCopied, setShareLinkCopied] = useState(false);
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const params = useParams();
     const auth = getAuth();
+
+
 
     useEffect(function() {
         const fetchListing = async () => {
             const docRef = doc(db, "listings", params.listingId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                console.log(docSnap.data());
                 setListing(docSnap.data());
                 setLoading(false);
             }
-            console.log(listing)
         }
         fetchListing();
     }, [params.listingId]);
+
 
 
     if (loading) {
@@ -35,7 +40,7 @@ const Listing = () => {
 
     } else {
 
-        const { userRef, name, offer, discountedPrice, regularPrice, location, type, year, make, model, mileage} = listing;
+        const { userRef, name, offer, discountedPrice, regularPrice, location, type, year, make, model, mileage, geolocation} = listing;
 
             return (
                 <main>
@@ -86,9 +91,14 @@ const Listing = () => {
                         <p>
                             Location
                         </p>
-                        {/*MAP*/}
+
+
+                        <div className={"mapbox-container"}>
+                           <MapContainer lat={geolocation.lat} lon={geolocation.lon} location={location}/>
+                        </div>
+
                         {auth.currentUser?.uid !== userRef && (
-                            <Link to={`/contact/${userRef}?listingName=${name}&listingLocation=${location}`}>
+                            <Link to={`/contact/${userRef}?listingName=${name}`}>
                                 Contact Owner
                             </Link>
                         )}
