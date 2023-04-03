@@ -29,28 +29,38 @@ const Contact = () => {
     }, [params.ownerId]);
 
     const onChange = (e) => {
+
         setMessage(e.target.value);
     }
 
     return (
-        <div>
-            <header>
+        <div className={"page-container"}>
+            <header className={"page-header"}>
                 <p>Contact Owner</p>
             </header>
             {owner !== null && (
                 <main>
-                    <div>
-                        <p>{owner?.name}</p>
+                    <div className={"contact-owner"}>
+                        <p className={"owner-name"}>Contact {owner?.name}</p>
                     </div>
-                    <form>
-                        <div>
-                            <label htmlFor={"message"}>
+                    <form className={"message-form"}>
+                        <div className={"message-div"}>
+                            <label htmlFor={"subject"} className={"message-label"}>
+                                Subject
+                            </label>
+                            <input
+                            type={"text"}
+                            className={"subject-input"}
+                            value={searchParams.get("listingName")}
+                            disabled
+                            />
+                            <label htmlFor={"message"} className={"message-label"}>
                                 Message
                             </label>
-                            <textarea name={"message"} id={"message"} value={message} onChange={onChange}/>
+                            <textarea name={"message"} id={"message"} value={message} onChange={onChange} className={"message-textarea"}/>
                         </div>
                         <a href={`mailto:${owner?.email}?Subject=${searchParams.get("listingName")}&body=${message}`}>
-                            <button type={"button"}>Send Message</button>
+                            <button type={"button"} className={"primary-button"}>Send Message</button>
                         </a>
                     </form>
                 </main>
