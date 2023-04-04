@@ -44,8 +44,7 @@ const Listing = () => {
 
             return (
                 <main>
-                    Listing
-                    <div onClick={() => {
+                    <div className={"share-icon-div"} onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         setShareLinkCopied(true);
                         setTimeout(function () {
@@ -56,25 +55,25 @@ const Listing = () => {
                     </div>
 
                     {shareLinkCopied && (
-                        <p>Link Copied!</p>
+                        <p className={"link-copied"}>Link Copied!</p>
                     )}
 
-                    <div>
-                        <p>
+                    <div className={"listing-details"}>
+                        <p className={"listing-name"}>
                             {name} - ${offer ? discountedPrice : regularPrice}
                         </p>
-                        <p>
+                        <p className={"listing-location"}>
                             {location}
                         </p>
-                        <p>
+                        <p className={"listing-type"}>
                             For {type === "rent" ? "Rent" : "Sale"}
                         </p>
                         {offer && (
-                            <p>
+                            <p className={"discount-price"}>
                                 ${regularPrice - discountedPrice} discount
                             </p>
                         )}
-                        <ul>
+                        <ul className={"listing-details-list"}>
                             <li>
                                 {year}
                             </li>
@@ -88,7 +87,7 @@ const Listing = () => {
                                 {mileage}
                             </li>
                         </ul>
-                        <p>
+                        <p className={"listing-location-title"}>
                             Location
                         </p>
 
@@ -98,7 +97,7 @@ const Listing = () => {
                         </div>
 
                         {auth.currentUser?.uid !== userRef && (
-                            <Link to={`/contact/${userRef}?listingName=${name}`}>
+                            <Link to={`/contact/${userRef}?listingName=${name}`} className={"primary-button"}>
                                 Contact Owner
                             </Link>
                         )}
