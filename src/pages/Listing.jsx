@@ -90,16 +90,16 @@ const Listing = () => {
                         )}
                         <ul className={"listing-details-list"}>
                             <li>
-                                {year}
+                                <span className={"li-span"}>Year</span> {year}
                             </li>
                             <li>
-                                {make}
+                                <span className={"li-span"}>Make</span> {make}
                             </li>
                             <li>
-                                {model}
+                                <span className={"li-span"}>Model</span> {model}
                             </li>
                             <li>
-                                {mileage}
+                                <span className={"li-span"}>Mileage</span> {mileage}
                             </li>
                         </ul>
                         <p className={"listing-location-title"}>
