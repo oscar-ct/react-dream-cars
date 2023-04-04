@@ -160,7 +160,7 @@ input:-webkit-autofill:active {
     margin-top: 1.5rem;
     display: flex;
     /*justify-content: space-between;*/
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     position: inherit;
 }
@@ -582,7 +582,6 @@ input:-webkit-autofill:active {
     margin-top: 0;
     font-weight: 600;
 }
-
 .discount-price {
     padding: 0.25rem 0.5rem;
     background-color: #000000;
@@ -616,6 +615,7 @@ input:-webkit-autofill:active {
     font-weight: 600;
     font-size: 1.25rem;
 }
+
 /*MAP*/
 .map-container {
     /*height: 400px;*/
@@ -627,4 +627,19 @@ input:-webkit-autofill:active {
     height: 200px;
     overflow-x: hidden;
     margin-bottom: 3rem;
+}
+
+
+
+
+
+/*SWIPER*/
+.swiper-slide-div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.swipe-img {
+    width: 100%;
+    height: 100%;
 }

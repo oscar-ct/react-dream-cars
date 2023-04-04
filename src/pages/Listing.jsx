@@ -1,11 +1,14 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams  } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase.config";
-
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css"
 import shareIcon from "../assets/svg/shareIcon.svg"
 import MapContainer from "../components/MapContainer";
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 
 
@@ -40,10 +43,22 @@ const Listing = () => {
 
     } else {
 
-        const { userRef, name, offer, discountedPrice, regularPrice, location, type, year, make, model, mileage, geolocation} = listing;
+        const { userRef, name, offer, discountedPrice, regularPrice, location, type, year, make, model, mileage, geolocation, imageUrls } = listing;
 
             return (
                 <main>
+
+                    <Swiper slidesPerView={1} pagination={{clickable: true}}>
+                        {imageUrls.map(function(url, index) {
+                            return  ( <SwiperSlide key={index}>
+                               <div className={"swiper-slide-div"}>
+                                   <img className={"swipe-img"} src={imageUrls[index]} alt={"vehicle"}/>
+                               </div>
+
+                            </SwiperSlide> )
+                        })}
+                    </Swiper>
+
                     <div className={"share-icon-div"} onClick={() => {
                         navigator.clipboard.writeText(window.location.href);
                         setShareLinkCopied(true);
