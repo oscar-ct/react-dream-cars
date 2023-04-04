@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import Slider from "../components/Slider";
 
 const Explore = () => {
     return (
@@ -9,6 +10,7 @@ const Explore = () => {
             </header>
 
             <main>
+                <Slider/>
                 <p className={"explore-category-heading"}>Categories</p>
                 <div className={"explore-categories"}>
                     <Link to={"/category/rent"}>
