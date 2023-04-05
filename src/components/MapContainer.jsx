@@ -21,7 +21,7 @@ const MapContainer = ( {lat, lon, location} ) => {
         new mapboxgl.Marker().setLngLat([lon, lat]).setPopup(new mapboxgl.Popup().setHTML(`<span>${location}</span>`)).addTo(map);
         map.addControl(new mapboxgl.NavigationControl(), "top-right");
         return () => map.remove();
-    }, [lat, lon]);
+    }, [lat, location, lon]);
 
 
 
