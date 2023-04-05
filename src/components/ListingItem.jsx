@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { ReactComponent as DeleteIcon} from "../assets/svg/deleteIcon.svg";
+import { ReactComponent as EditIcon} from "../assets/svg/editIcon.svg";
 
 
-const ListingItem = ( { listing, id, onDelete } ) => {
+
+const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
 
     const { type, name, location, discountedPrice, regularPrice, offer, imageUrls, model, year, make } = listing;
 
@@ -39,6 +41,10 @@ const ListingItem = ( { listing, id, onDelete } ) => {
 
             {onDelete && (
                 <DeleteIcon className={"remove-icon"} fill={"rgb(231, 76 ,60)"} onClick={() => onDelete(listing.id, name)}/>
+            )}
+
+            {onEdit && (
+                <EditIcon className={"edit-icon"} onClick={() => onEdit(listing.id)}/>
             )}
 
         </li>
