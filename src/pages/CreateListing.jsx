@@ -71,10 +71,13 @@ const CreateListing = () => {
                         case 'running':
                             console.log('Upload is running');
                             break;
+                        default:
+                            break;
                     }
                 },
                 (error) => {
                     reject(error)
+                    // eslint-disable-next-line default-case
                     switch (error.code) {
                         case 'storage/unauthorized':
                             // User doesn't have permission to access the object
@@ -84,6 +87,8 @@ const CreateListing = () => {
                             break;
                         case 'storage/unknown':
                             // Unknown error occurred, inspect error.serverResponse
+                            break;
+                        default:
                             break;
                     }
                 },
