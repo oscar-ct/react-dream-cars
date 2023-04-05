@@ -40,6 +40,10 @@ const Slider = () => {
         return <h1>Loading...</h1>
     }
 
+    if (listingsState.length === 0) {
+        return <></>
+    }
+
     return listingsState && (
         <>
             <p className={"explore-heading"}>Recommended</p>
