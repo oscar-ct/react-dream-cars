@@ -14,30 +14,37 @@ import CreateListing from "./pages/CreateListing";
 import Listing from "./pages/Listing";
 import Contact from "./pages/Contact";
 import EditListing from "./pages/EditListing";
+import { AuthProvider } from "./context/AuthContext";
+
 
 
 function App() {
+
+
   return (
     <>
-        <Router>
-            <Routes>
-                <Route path={"/"} element={<Explore/>}/>
-                <Route path={"/offers"} element={<Offers/>}/>
-                <Route path={"/category/:categoryName"} element={<Category/>}/>
-                <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
-                <Route path={"/profile"} element={<PrivateRoute/>}>
-                    <Route path={"/profile"} element={<Profile/>}/>
-                </Route>
-                <Route path={"/sign-in"} element={<SignIn/>}/>
-                <Route path={"/sign-up"} element={<SignUp/>}/>
-                <Route path={"/create-listing"} element={<CreateListing/>}/>
-                <Route path={"/edit-listing/:listingId"} element={<EditListing/>}/>
-                <Route path={"/category/:categoryName/:listingId"} element={<Listing/>}/>
-                <Route path={"/contact/:ownerId"} element={<Contact/>}/>
-            </Routes>
+        <AuthProvider>
+            <Router>
                 <Navbar/>
-        </Router>
-        <ToastContainer/>
+                <Routes>
+                    <Route path={"/"} element={<Explore/>}/>
+                    <Route path={"/offers"} element={<Offers/>}/>
+                    <Route path={"/category/:categoryName"} element={<Category/>}/>
+                    <Route path={"/forgot-password"} element={<ForgotPassword/>}/>
+                    <Route path={"/profile"} element={<PrivateRoute/>}>
+                        <Route path={"/profile"} element={<Profile/>}/>
+                    </Route>
+                    <Route path={"/sign-in"} element={<SignIn/>}/>
+                    <Route path={"/sign-up"} element={<SignUp/>}/>
+                    <Route path={"/create-listing"} element={<CreateListing/>}/>
+                    <Route path={"/edit-listing/:listingId"} element={<EditListing/>}/>
+                    <Route path={"/category/:categoryName/:listingId"} element={<Listing/>}/>
+                    <Route path={"/contact/:ownerId"} element={<Contact/>}/>
+                </Routes>
+
+            </Router>
+            <ToastContainer/>
+        </AuthProvider>
     </>
   );
 }
