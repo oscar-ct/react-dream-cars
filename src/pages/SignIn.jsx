@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 import OAuth from "../components/OAuth";
+import AuthContext from "../context/AuthContext";
+
 
 
 
@@ -14,8 +16,20 @@ const SignIn = () => {
         email: "",
         password: "",
     });
+    const { dispatch, isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const { email, password } = formData;
+
+
+    useEffect(function () {
+        const checkLoginStatus = () => {
+            if (isLoggedIn) {
+                navigate("/profile");
+                // console.log("you are already logged in");
+            }
+        }
+        checkLoginStatus();
+    }, [isLoggedIn, navigate]);
 
     const onCredentialChange = (e) => {
         setFormData(prevState => ({
@@ -30,12 +44,17 @@ const SignIn = () => {
             const auth = getAuth();
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             if (userCredential.user) {
-                navigate("/profile")
+                dispatch({
+                    type: "SET_LOGIN",
+                    payload: true,
+                });
+                navigate("/profile");
             }
         } catch (e) {
             toast.error("Invalid password/email")
         }
     }
+
 
     return (
         <>
