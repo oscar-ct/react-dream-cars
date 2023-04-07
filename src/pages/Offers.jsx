@@ -19,7 +19,7 @@ const Offers = () => {
                     listingsRef,
                     where("offer", "==", true),
                     orderBy("timestamp", "desc"),
-                    limit(1));
+                    limit(10));
                 const querySnap = await getDocs(q);
                 const lastVisible = querySnap.docs[querySnap.docs.length - 1];
                 setLastFetchedListing(lastVisible);
@@ -66,31 +66,29 @@ const Offers = () => {
     }
 
     return (
-        <div className={"category"}>
-            <header className={"page-header"}>
-                <p>
-                    Offers
+        <div>
+            <div className={"flex justify-center my-12"}>
+                <p className={"text-3xl text-center"}>
+                    Check out some of our <span className={"font-bold"}>discounted</span> listings.
                 </p>
-            </header>
+            </div>
             {loading ?
                 <h1>Loading...</h1>
                 : listings && listings.length > 0 ?
-                    <>
-                        <main>
-                            <ul className={"category-listings"}>
-                                {listings.map(function (listing) {
-                                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
-                                    }
-                                )}
-                            </ul>
-                        </main>
-                        <br/>
-                        {
-                            lastFetchedListing ? (
-                                <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>
-                            ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""
-                        }
-                    </>
+                    <div className={"flex justify-center lg:mt-12"}>
+                        <div className={"flex flex-col items-center lg:flex-row lg:flex-wrap justify-center"}>
+                            {listings.map(function (listing) {
+                                    return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
+                                }
+                            )}
+                        </div>
+                        {/*<br/>*/}
+                        {/*{*/}
+                        {/*    lastFetchedListing ? (*/}
+                        {/*        <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>*/}
+                        {/*    ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""*/}
+                        {/*}*/}
+                    </div>
                     :
                     <p>
                         There are no current offers
