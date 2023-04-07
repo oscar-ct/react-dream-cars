@@ -4,34 +4,28 @@ import Slider from "../components/Slider";
 
 const Explore = () => {
     return (
-        <div className={"explore"}>
-            <header>
-                <p className={"page-header"}>Explore</p>
-            </header>
-
+        <div className={"lg:mx-24 xl:mx-48 2xl:mx-96 bg-white min-h-screen"}>
             <main>
-                <Slider/>
-                <p className={"explore-category-heading"}>Categories</p>
-                <div className={"explore-categories"}>
-                    <Link to={"/category/rent"}>
-                        <img
-                            className={"explore-category-img"}
-                            src={"https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"}
-                             alt={"rent"}/>
-                        <p className={"explore-category-name"}>
-                            Vehicles for rent
-                        </p>
-                    </Link>
-                    <Link to={"/category/sale"}>
-                        <img
-                            className={"explore-category-img"}
-                            src={"https://images.unsplash.com/photo-1551501438-e61a59a1fd75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=929&q=80"}
-                            alt={"sale"}
-                        />
-                        <p className={"explore-category-name"}>
-                            Vehicles for sale
-                        </p>
-                    </Link>
+                <div className={""}>
+                    <Slider/>
+                </div>
+                <div className={"bg-white h-96 rounded-bl-2xl rounded-br-2xl"}>
+                    <div className={"pt-6 lg:pt-12 lg:pb-6 mb-6 flex justify-center"}>
+                        <h1 className="text-xl lg:text-2xl">To get started, select a category to view.</h1>
+                    </div>
+                    <div className="flex flex-col lg:flex-row mx-8 sm:mx-12">
+                        <Link to={"/category/rent"} className="grid flex-grow h-24 lg:h-32 card bg-purple-600 rounded-box place-items-center">
+                            <h1 className="text-3xl font-bold text-white">
+                                Rent
+                            </h1>
+                        </Link>
+                        <div className="divider lg:divider-horizontal">OR</div>
+                        <Link to={"/category/sale"} className="grid flex-grow h-24 lg:h-32 card bg-green-400 rounded-box place-items-center">
+                            <h1 className="text-3xl font-bold text-slate-800">
+                                Buy
+                            </h1>
+                        </Link>
+                    </div>
                 </div>
             </main>
         </div>
