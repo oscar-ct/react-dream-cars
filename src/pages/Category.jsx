@@ -21,7 +21,7 @@ const Category = () => {
                     listingsRef,
                     where("type", "==", params.categoryName),
                     orderBy("timestamp", "desc"),
-                    limit(1));
+                    limit(10));
                 const querySnap = await getDocs(q);
                 const lastVisible = querySnap.docs[querySnap.docs.length - 1];
                 setLastFetchedListing(lastVisible);
@@ -70,36 +70,35 @@ const Category = () => {
 
 
     return (
-        <div className={"category"}>
-            <header className={"page-header"}>
-                <p>
-                    {params.categoryName === "rent" ? "Vehicles for rent" : "Vehicles for sale"}
-                </p>
-            </header>
+        <div className={"flex justify-center lg:mt-12"}>
+            {/*<header className={"page-header"}>*/}
+            {/*    <p>*/}
+            {/*        {params.categoryName === "rent" ? "Vehicles for rent" : "Vehicles for sale"}*/}
+            {/*    </p>*/}
+            {/*</header>*/}
+
             {loading ?
                 <h1>Loading...</h1>
+                // Spinner
                 : listings && listings.length > 0 ?
-                    <>
-                        <main>
-                            <ul className={"category-listings"}>
-                                {listings.map(function (listing) {
-                                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
-                                    }
-                                )}
-                            </ul>
-                        </main>
-                        <br/>
-                        {
-                            lastFetchedListing ? (
-                                <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>
-                            ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""
-                        }
-                    </>
+                    <div className={"flex flex-col items-center lg:flex-row lg:flex-wrap justify-center"}>
+                            {listings.map(function (listing) {
+                                    return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
+                                }
+                            )}
+                        {/*<br/>*/}
+                        {/*{*/}
+                        {/*    lastFetchedListing ? (*/}
+                        {/*        <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>*/}
+                        {/*    ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""*/}
+                        {/*}*/}
+                    </div>
                     :
                     <p>
                         No listings for {params.categoryName}
                     </p>
             }
+
         </div>
     );
 };
