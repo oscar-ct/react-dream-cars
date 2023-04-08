@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate, Link} from "react-router-dom";
 // import { ReactComponent as OfferIcon } from "../assets/svg/localOfferIcon.svg";
 // import { ReactComponent as ExploreIcon} from "../assets/svg/exploreIcon.svg";
 // import { ReactComponent as PersonOutlineIcon} from "../assets/svg/personIcon.svg";
-import {getAuth} from "firebase/auth";
-import AuthContext from "../context/AuthContext";
-import {useAuthStatus} from "../hooks/useAuthStatus";
-import {useEffect} from "react";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {doc, getDoc} from "firebase/firestore";
+import {db} from "../firebase.config";
+
 
 
 const Navbar = () => {
@@ -14,27 +14,34 @@ const Navbar = () => {
 
     const navigate = useNavigate();
     // const location = useLocation();
-    const { dispatch, isLoggedIn } = useContext(AuthContext);
-    const { loggedIn } = useAuthStatus();
 
-    useEffect(function () {
-        const authStatus = () => {
-            // console.log(loggedIn);
-            if (loggedIn) {
-                dispatch({
-                    type: "SET_LOGIN",
-                    payload: true,
-                });
+    const [url, setUrl] = useState("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+    const [isSignedIn, setIsSignedIn] = useState(false);
+
+
+    useEffect(function() {
+
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                // const uid = user.uid;
+                // ...
+                getAuthUser();
             } else {
-                dispatch({
-                    type: "SET_LOGIN",
-                    payload: false,
-                });
-                console.log("user is not signed in");
+                setIsSignedIn(false);
             }
+        });
+
+        const getAuthUser = async () => {
+            const userRef = doc(db, "users", auth.currentUser.uid);
+            const fetchUser = await getDoc(userRef);
+            setUrl(fetchUser.data().profileUrl);
+            setIsSignedIn(true);
         }
-        authStatus();
-    }, [dispatch, loggedIn]);
+        console.log("using getAuthUser from nav useEffect")
+    }, [])
     
     // const pathMathRoute = (route) => {
     //     return route === location.pathname;
@@ -43,12 +50,9 @@ const Navbar = () => {
 
     const auth = getAuth();
     const onLogout = () => {
-        dispatch({
-            type: "SET_LOGIN",
-            payload: false,
-        });
+        setUrl("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+        setIsSignedIn(false);
         auth.signOut().then(navigate("/sign-in"));
-
     };
 
 
@@ -90,7 +94,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><Link to={"/offers"}>Offers </Link></li>
+                    <li><Link to={"/offers"}>Special Offers</Link></li>
                     <li><Link to={"/"}>Explore</Link></li>
                 </ul>
             </div>
@@ -98,12 +102,14 @@ const Navbar = () => {
                 <div className="dropdown dropdown-end">
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
-                            <img src="https://p1.hiclipart.com/preview/444/382/414/frost-pro-for-os-x-icon-set-now-free-contacts-male-profile-png-clipart-thumbnail.jpg" alt={"default"} />
+
+                            <img src={url} alt={"profile"} />
                         </div>
                     </label>
                     <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-200 rounded-box w-52">
+
                         {
-                            isLoggedIn ? <li>
+                            isSignedIn ? <li>
                                 <Link to={"/profile"} className="justify-between">
                                     My Profile
                                     {/*<span className="badge">New</span>*/}
@@ -112,7 +118,7 @@ const Navbar = () => {
                         }
 
                         {
-                            isLoggedIn ? <li><span onClick={onLogout}>Logout</span></li> :
+                            isSignedIn ? <li><span onClick={() => onLogout()}>Logout</span></li> :
                                 <li><Link to={"/sign-in"}>Login</Link></li>
                         }
 
