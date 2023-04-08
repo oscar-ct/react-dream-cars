@@ -9,7 +9,8 @@ const AuthContext = createContext();
 export const AuthProvider = ( {children} ) => {
 
     const initialState = {
-        isLoggedIn: false,
+        anonymousBoolean: false,
+
     }
 
     const [state, dispatch] = useReducer(authReducer, initialState);
@@ -17,7 +18,8 @@ export const AuthProvider = ( {children} ) => {
     return <AuthContext.Provider
         value={{
             dispatch,
-            isLoggedIn: state.isLoggedIn,
+            anonymousBoolean: state.anonymousBoolean,
+
         }}>
         {children}
     </AuthContext.Provider>

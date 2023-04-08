@@ -1,9 +1,10 @@
 function authReducer (state, action) {
     switch (action.type) {
-        case "SET_LOGIN":
+
+        case "SET_BOOLEAN":
             return {
                 ...state,
-                isLoggedIn: action.payload,
+                anonymousBoolean: action.payload,
             }
         default:
             return state;
