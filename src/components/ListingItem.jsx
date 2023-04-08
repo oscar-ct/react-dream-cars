@@ -68,7 +68,7 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
 
                     </figure>
                     <div className="card-body pb-5 px-5 pt-0">
-                        { offer ? <span className={"list-text-discounted text-xs"}>Discounted</span> : <span className={"list-text-discounted-false"}>found me :)</span>}
+                        { offer ? <span className={"list-text-discounted text-xs"}>Discounted</span> : <span className={"list-text-discounted-false text-xs"}>.</span>}
                         <h2 className="card-title mt-0 pt-0">
                             {name}
                         </h2>
@@ -117,7 +117,7 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                                     <div className="btn btn-ghost btn-circle avatar">
                                         <div className="w-10 rounded-full">
                                             <img
-                                                src="https://p1.hiclipart.com/preview/444/382/414/frost-pro-for-os-x-icon-set-now-free-contacts-male-profile-png-clipart-thumbnail.jpg"
+                                                src={listing.userProfileUrl}
                                                 alt={"profile"}/>
                                         </div>
                                     </div>
