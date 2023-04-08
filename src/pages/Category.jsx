@@ -70,35 +70,49 @@ const Category = () => {
 
 
     return (
-        <div className={"flex justify-center lg:mt-12"}>
-            {/*<header className={"page-header"}>*/}
-            {/*    <p>*/}
-            {/*        {params.categoryName === "rent" ? "Vehicles for rent" : "Vehicles for sale"}*/}
-            {/*    </p>*/}
-            {/*</header>*/}
+        <div>
+            <div className={"flex justify-center my-12"}>
+                { params.categoryName === "rent" ? (
+                    <p className={"text-3xl text-center"}>
+                        Sexy vehicles for <span className={"font-bold"}>rent</span> around your area.
+                    </p> )
+                    : (
+                    <p className={"text-3xl text-center"}>
+                        Sexy vehicles for <span className={"font-bold"}>sale</span> around your area.
+                    </p> )
+                }
 
-            {loading ?
-                <h1>Loading...</h1>
-                // Spinner
-                : listings && listings.length > 0 ?
-                    <div className={"flex flex-col items-center lg:flex-row lg:flex-wrap justify-center"}>
-                            {listings.map(function (listing) {
-                                    return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
-                                }
-                            )}
-                        {/*<br/>*/}
-                        {/*{*/}
-                        {/*    lastFetchedListing ? (*/}
-                        {/*        <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>*/}
-                        {/*    ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""*/}
-                        {/*}*/}
-                    </div>
-                    :
-                    <p>
-                        No listings for {params.categoryName}
-                    </p>
-            }
+            </div>
+            <div className={"flex justify-center lg:mt-12"}>
+                {/*<header className={"page-header"}>*/}
+                {/*    <p>*/}
+                {/*        {params.categoryName === "rent" ? "Vehicles for rent" : "Vehicles for sale"}*/}
+                {/*    </p>*/}
+                {/*</header>*/}
 
+                {loading ?
+                    <h1>Loading...</h1>
+                    // Spinner
+                    : listings && listings.length > 0 ?
+                        <div className={"flex flex-col items-center lg:flex-row lg:flex-wrap justify-center"}>
+                                {listings.map(function (listing) {
+                                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>
+                                    }
+                                )}
+                            {/*<br/>*/}
+                            {/*{*/}
+                            {/*    lastFetchedListing ? (*/}
+                            {/*        <p className={"load-more"} onClick={fetchMoreListings}>Load More</p>*/}
+                            {/*    ) : lastFetchedListing === undefined ? <p className={"no-listings"}>No more listings</p> : ""*/}
+                            {/*}*/}
+                        </div>
+                        :
+                        <p>
+                            No listings for {params.categoryName}
+                        </p>
+                }
+
+            </div>
         </div>
     );
 };
