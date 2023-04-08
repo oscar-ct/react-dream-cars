@@ -3,21 +3,20 @@ import { getAuth, updateProfile } from "firebase/auth";
 import {Link, useNavigate} from "react-router-dom";
 import { updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc} from "firebase/firestore";
 import { db } from "../firebase.config";
-// import arrowRight from "../assets/svg/keyboardArrowRightIcon.svg"
-// import homeIcon from "../assets/svg/homeIcon.svg"
 import plusIcon from "../assets/svg/icons8-add-new-100.png"
 import ListingItem from "../components/ListingItem";
 import {toast} from "react-toastify";
-import { ReactComponent as EditIcon} from "../assets/svg/editIcon.svg";
+
 
 
 const Profile = () => {
-    const auth = getAuth();
-    const navigate = useNavigate();
 
     const[changeDetails, setChangeDetails] = useState(false);
     const[loading, setLoading] = useState(true);
     const[listingsState, setListingsState] = useState(null);
+
+    const auth = getAuth();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         name: auth.currentUser.displayName,
@@ -45,10 +44,6 @@ const Profile = () => {
         fetchUserListings();
     }, [auth.currentUser.uid])
 
-
-    // const onLogout = () => {
-    //     auth.signOut().then(navigate("/sign-in"));
-    // };
 
     const submitChangeDetails = async () => {
         try {
@@ -158,56 +153,81 @@ const Profile = () => {
             {/*</div>*/}
 
                 <main className={"flex flex-col"}>
+
                     <div>
-                        <div className={"flex justify-center"}>
-                            <div className="card shadow-lg w-11/12 md:w-9/12 lg:w-1/2 bg-green-300/20 text-neutral">
-                                <div  className={"flex justify-between"}>
-                                    <p className={"w-full pl-8 mt-3 text-center text-lg font-bold"}>Personal Details</p>
-                                    <div>
-                                    {!changeDetails ?
-                                        <EditIcon style={{cursor: "pointer"}} className={"mt-3 mr-3 mb-1"} fill={"neutral"} onClick={() => {onClick()}}/>
-                                        :
-                                        <button className="btn btn-primary btn-xs mt-3 mr-3 mb-1" onClick={() => {onClick()}}>done</button>
-                                    }
+                        <div className={"flex flex-col w-full px-4 sm:px-12"}>
+                            <p className={"text-3xl text-blue-400 font-light"}>Account Details</p>
+                            <div className={"my-10 flex justify-between"}>
+                                <p className={"text-md text-zinc-400 font-light"}>Click the edit icon to update account details.</p>
+                                {!changeDetails ?
+                                    <button className={"btn btn-primary btn-xs sm:btn-sm"} onClick={() => {onClick()}}>Edit</button>
+                                    // <EditIcon style={{cursor: "pointer"}} className={"mt-3 mr-3 mb-1"} fill={"neutral"} />
+                                    :
+                                    <button className="btn btn-success btn-xs sm:btn-sm" onClick={() => {onClick()}}>Save</button>
+                                }
+                            </div>
+                            <div className="flex items-center">
+
+                                <div className={"w-2/6 sm:w-3/6 flex flex-col"}>
+                                    <div className={"flex justify-end py-6 pr-6"}>
+                                        <p className={"text-sm sm:text-base"}>Account Name:</p>
+                                    </div>
+                                    <div className={"flex justify-end py-6 pr-6"}>
+                                        <p className={"text-sm sm:text-base"}>Email:</p>
+                                    </div>
+                                    <div className={"flex justify-end py-6 pr-6"}>
+                                        <p className={"text-sm sm:text-base"}>Profile Picture:</p>
                                     </div>
                                 </div>
-                                <div className="pt-0 card-body text-center">
-                                    <div className={"flex"}>
-                                        <label className={"pt-3 pr-1"}>Name:</label>
+                                <div className="w-4/6 sm:w-3/6 flex flex-col">
+                                    <div className={"flex justify-start p-3"}>
                                         <input
                                             autoComplete={"off"}
                                             type={"text"}
                                             id={"name"}
-                                            className={!changeDetails ? "bg-transparent m-3 w-full" : "input input-ghost w-full max-w-xs"}
+                                            className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
                                             disabled={!changeDetails}
                                             value={name}
                                             onChange={onChangePersonalDetails}
                                         />
                                     </div>
-                                    <div className={"border-white"}/>
-                                    <div className={"flex"}>
-                                        <label className={"pt-3 pr-1"}>Email:</label>
+
+                                    <div className={"flex justify-start p-3"}>
                                         <input
                                             autoComplete={"off"}
                                             type={"text"}
                                             id={"email"}
-                                            className={!changeDetails ? "bg-transparent m-3 w-full" : "input input-ghost w-full max-w-xs text-black"}                                  disabled={true}
+                                            className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
+                                            disabled={true}
                                             value={email}
+                                            onChange={onChangePersonalDetails}
+                                        />
+                                    </div>
+                                    <div className={"flex justify-start p-3"}>
+                                        <input
+                                            autoComplete={"off"}
+                                            type={"file"}
+                                            accept={".jpg,.png,.jpeg"}
+                                            id={"image"}
+                                            disabled={!changeDetails}
+                                            className={"file-input file-input-bordered file-input-primary w-full max-w-xs text-sm sm:text-base"}
+                                            // value={email}
                                             onChange={onChangePersonalDetails}
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
+
+
+                    <div className={"my-5 w-full px-4 sm:px-12"}>
+                        <p className={"text-3xl text-blue-400 font-light"}>My Listings</p>
+                    </div>
                     <div className={"flex flex-col items-center"}>
                         {!loading && listingsState?.length > 0 ? (
                             <>
-                                <div className={"mt-5"}>
-                                    <p className={"text-lg font-bold"}>My Listings</p>
-                                </div>
                                 <div className={"flex flex-col lg:flex-row lg:justify-center w-full items-center"}>
 
                                     <div className={"flex justify-center flex-wrap"}>
