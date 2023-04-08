@@ -1,11 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
-import { ReactComponent as ArrowRightIcon} from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 import OAuth from "../components/OAuth";
-import AuthContext from "../context/AuthContext";
+
 
 
 
@@ -16,20 +15,19 @@ const SignIn = () => {
         email: "",
         password: "",
     });
-    const { dispatch, isLoggedIn } = useContext(AuthContext);
+
     const navigate = useNavigate();
     const { email, password } = formData;
 
-
-    useEffect(function () {
-        const checkLoginStatus = () => {
-            if (isLoggedIn) {
-                navigate("/profile");
-                // console.log("you are already logged in");
-            }
-        }
-        checkLoginStatus();
-    }, [isLoggedIn, navigate]);
+    // useEffect(function () {
+    //     const checkLoginStatus = () => {
+    //         if (isLoggedIn) {
+    //             navigate("/profile");
+    //             console.log("you are already logged in");
+    //         }
+    //     }
+    //     checkLoginStatus();
+    // }, [isLoggedIn, navigate]);
 
     const onCredentialChange = (e) => {
         setFormData(prevState => ({
@@ -43,13 +41,9 @@ const SignIn = () => {
         try {
             const auth = getAuth();
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            if (userCredential.user) {
-                dispatch({
-                    type: "SET_LOGIN",
-                    payload: true,
-                });
-                navigate("/profile");
-            }
+                if (userCredential.user) {
+                    navigate("/profile");
+                }
         } catch (e) {
             toast.error("Invalid password/email")
         }
@@ -120,7 +114,7 @@ const SignIn = () => {
                 <div className="min-h-screen flex flex-row mx-4 sm:mx-12 justify-center">
                     <div className="flex-col flex self-center  sm:max-w-5xl xl:max-w-2xl  z-10">
                         <div className="self-start hidden lg:flex flex-col  text-white">
-                            <img src="" className="mb-3"/>
+                            <img src="" className="mb-3" alt={""}/>
                             <div className={"w-9/12"}>
                                 <h1 className="mb-3 font-bold text-5xl">Welcome Back,
                                 </h1>
