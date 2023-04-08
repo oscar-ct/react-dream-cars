@@ -68,7 +68,7 @@ const Offers = () => {
     return (
         <div>
             <div className={"flex justify-center my-12"}>
-                <p className={"text-3xl text-center"}>
+                <p className={"text-3xl font-light text-center text-blue-400"}>
                     Check out some of our <span className={"font-bold"}>discounted</span> listings.
                 </p>
             </div>
