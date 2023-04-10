@@ -172,6 +172,27 @@ const Profile = () => {
         changeDetails && submitChangeDetails();
         setChangeDetails(prevState => !prevState);
     }
+    const onClickCancel = () => {
+        setChangeDetails(prevState => !prevState);
+        if (updatedProfilePicture) {
+            setUpdatedFormData(prevState => {
+                return {
+                    ...prevState,
+                    images: {}
+                }
+            });
+            setUpdatedProfilePicture(false);
+            document.getElementById("images").value = "";
+        }
+        if (userData.name !== updatedFormData.name) {
+            setUpdatedFormData(prevState => {
+                return {
+                    ...prevState,
+                    name: userData.name
+                }
+            });
+        }
+    }
 
 
     return (
@@ -245,7 +266,10 @@ const Profile = () => {
                                     <button className={"btn btn-primary btn-xs sm:btn-sm"} onClick={() => {onClick()}}>Edit</button>
                                     // <EditIcon style={{cursor: "pointer"}} className={"mt-3 mr-3 mb-1"} fill={"neutral"} />
                                     :
-                                    <button className="btn btn-success btn-xs sm:btn-sm" onClick={() => {onClick()}}>Save</button>
+                                    <div>
+                                        <button className="btn btn-error btn-xs sm:btn-sm" onClick={() => {onClickCancel()}}>Cancel</button>
+                                        <button className="btn btn-success btn-xs sm:btn-sm" onClick={() => {onClick()}}>Save</button>
+                                   </div>
                                 }
                             </div>
                             <div className="flex items-center">
