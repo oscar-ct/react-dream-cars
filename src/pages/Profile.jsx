@@ -1,29 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { getAuth, updateProfile } from "firebase/auth";
 import {Link, useNavigate} from "react-router-dom";
-import { updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc} from "firebase/firestore";
+import {updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc, getDoc} from "firebase/firestore";
 import { db } from "../firebase.config";
 import plusIcon from "../assets/svg/icons8-add-new-100.png"
 import ListingItem from "../components/ListingItem";
 import {toast} from "react-toastify";
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
+import {v4 as uuidv4} from "uuid";
+import AuthContext from "../context/AuthContext";
 
 
 
 const Profile = () => {
 
-    const[changeDetails, setChangeDetails] = useState(false);
-    const[loading, setLoading] = useState(true);
-    const[listingsState, setListingsState] = useState(null);
+    const [changeDetails, setChangeDetails] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [listingsState, setListingsState] = useState(null);
+    const [updatedProfilePicture, setUpdatedProfilePicture] = useState(false);
 
     const auth = getAuth();
     const navigate = useNavigate();
+    const { userData, dispatch } = useContext(AuthContext);
 
-    const [formData, setFormData] = useState({
+    const [updatedFormData, setUpdatedFormData] = useState({
         name: auth.currentUser.displayName,
         email: auth.currentUser.email,
+        images: {},
     });
 
-    const { name, email } = formData;
+
+
+
+    // const { name, email } = updatedFormData;
+
+    // useEffect(function () {
+    //     const fetchUser = async () => {
+    //         const userRef = doc(db, "users", auth.currentUser.uid);
+    //         const fetchUser = await getDoc(userRef);
+    //         const userData = fetchUser.data();
+    //         setFormData({
+    //             name: userData.name,
+    //             email: userData.email,
+    //             photoUrl: userData.photoUrl,
+    //         });
+    //         setUpdatedFormData({
+    //            ...formData,
+    //             images: {}
+    //         });
+    //     }
+    //     fetchUser();
+    // });
 
 
     useEffect(function () {
@@ -42,32 +69,87 @@ const Profile = () => {
             setLoading(false);
         }
         fetchUserListings();
-    }, [auth.currentUser.uid])
+    }, [auth.currentUser.uid]);
+
+
+
+    const storeImage = async (image) => {
+        console.log(image)
+        return new Promise(function (resolve, reject) {
+            const storage = getStorage();
+            const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+            const storageRef = ref(storage, "images/" + fileName);
+            const uploadTask = uploadBytesResumable(storageRef, image);
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                },
+                (error) => {
+                    reject(error)
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                }
+            );
+        });
+    }
+
 
 
     const submitChangeDetails = async () => {
         try {
-            if (auth.currentUser.displayName !== name) {
+            if (userData.name !== updatedFormData.name) {
                 await updateProfile(auth.currentUser, {
-                    displayName: name,
+                    displayName: updatedFormData.name,
                 });
                 const userReference = doc(db, "users", auth.currentUser.uid);
                 await updateDoc(userReference, {
-                    name: name,
+                    name: updatedFormData.name,
                 });
             }
+            if (updatedProfilePicture) {
+                const imgUrl = await storeImage(updatedFormData.images[0]);
+                await updateProfile(auth.currentUser, {
+                    photoURL: imgUrl,
+                });
+                const userReference = doc(db, "users", auth.currentUser.uid);
+                await updateDoc(userReference, {
+                    photoUrl: imgUrl,
+                });
+                console.log(imgUrl)
+                dispatch({
+                    type: "SET_USER_PROFILE_IMG",
+                    payload: imgUrl,
+                })
+                setUpdatedProfilePicture(false);
+                toast.success("Successfully updated profile picture!")
+            }
+
         } catch (error) {
-            console.log(error);
+            setUpdatedProfilePicture(false);
+            toast.error("Error: " + error);
         }
     };
     
     const onChangePersonalDetails = (e) => {
-        setFormData(prevState => {
-            return {
-                ...prevState,
-                [e.target.id]: e.target.value,
-            };
+        if (e.target.files) {
+            setUpdatedFormData(prevState => {
+                return {
+                    ...prevState,
+                    images: e.target.files,
+                };
         });
+            console.log("setting to true")
+            setUpdatedProfilePicture(true);
+        } else if (!e.target.files) {
+            setUpdatedFormData(prevState => {
+                return {
+                    ...prevState,
+                    [e.target.id]: e.target.value,
+                };
+            });
+        }
     };
     
     const deleteListing = async (listingId, title) => {
@@ -83,7 +165,7 @@ const Profile = () => {
     };
 
     const editListingNav = (listingId) => {
-        navigate(`/edit-listing/${listingId}`)
+        navigate(`/edit-listing/${listingId}`);
     }
 
     const onClick = () => {
@@ -187,7 +269,7 @@ const Profile = () => {
                                             id={"name"}
                                             className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
                                             disabled={!changeDetails}
-                                            value={name}
+                                            value={userData === {} ? auth.currentUser.displayName : updatedFormData.name}
                                             onChange={onChangePersonalDetails}
                                         />
                                     </div>
@@ -199,19 +281,18 @@ const Profile = () => {
                                             id={"email"}
                                             className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
                                             disabled={true}
-                                            value={email}
+                                            value={userData === {} ? auth.currentUser.email : updatedFormData.email}
                                             onChange={onChangePersonalDetails}
                                         />
                                     </div>
                                     <div className={"flex justify-start p-3"}>
                                         <input
-                                            autoComplete={"off"}
                                             type={"file"}
                                             accept={".jpg,.png,.jpeg"}
-                                            id={"image"}
+                                            id={"images"}
                                             disabled={!changeDetails}
+                                            max={1}
                                             className={"file-input file-input-bordered file-input-primary w-full max-w-xs text-sm sm:text-base"}
-                                            // value={email}
                                             onChange={onChangePersonalDetails}
                                         />
                                     </div>
