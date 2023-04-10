@@ -73,12 +73,12 @@ const Category = () => {
         <div>
             <div className={"flex justify-center my-12"}>
                 { params.categoryName === "rent" ? (
-                    <p className={"text-3xl text-center"}>
-                        Sexy vehicles for <span className={"font-bold"}>rent</span> around your area.
+                    <p className={"text-3xl font-light text-center text-blue-400"}>
+                        Vehicles available for <span className={"font-bold"}>rent</span> around your area.
                     </p> )
                     : (
-                    <p className={"text-3xl text-center"}>
-                        Sexy vehicles for <span className={"font-bold"}>sale</span> around your area.
+                    <p className={"text-3xl font-light text-center text-blue-400"}>
+                        Vehicles for <span className={"font-bold"}>sale</span> around your area.
                     </p> )
                 }
 
