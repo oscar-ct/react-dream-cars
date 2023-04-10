@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from "react-router-dom";
 import { ReactComponent as DeleteIcon} from "../assets/svg/deleteIcon.svg";
 import { ReactComponent as EditIcon} from "../assets/svg/editIcon.svg";
+import {db} from "../firebase.config";
+import {doc, getDoc} from "firebase/firestore";
 
 
 
 const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
 
+    const [userDataExists, setUserDataExists] = useState(false);
+    const [userData, setUserData] = useState({
+        username: "",
+        userProfileUrl: "",
+    });
     const { type, name, location, discountedPrice, regularPrice, offer, imageUrls, model, year, make, mileage, timestamp } = listing;
 
     const date = new Date(timestamp.seconds*1000);
@@ -14,6 +21,25 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
     const dateArr = dateStr.toString().split(" ");
     dateArr.shift();
     const customDateStr = dateArr.join(" ");
+
+
+    const onClick = async (uid) => {
+        const userRef = doc(db, "users", uid);
+        const fetchUser = await getDoc(userRef);
+        const user = fetchUser.data();
+        if (fetchUser.exists()) {
+        setUserData( prevState => {
+            return {
+                ...prevState,
+                username: fetchUser.data().name,
+                userProfileUrl: fetchUser.data().photoUrl,
+            }
+        });
+        setUserDataExists(true);
+        console.log(userData)
+        console.log(user)
+        }
+    }
 
     return (
 
@@ -113,17 +139,35 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                             )}
                             {
                                 !onDelete && !onEdit && (
-                                <div className={"flex"}>
-                                    <div className="btn btn-ghost btn-circle avatar">
-                                        <div className="w-10 rounded-full">
-                                            <img
-                                                src={listing.userProfileUrl}
-                                                alt={"profile"}/>
+
+                                <div className={"flex items-center"}>
+                                    {
+                                        userDataExists && (
+                                            <div className="btn btn-ghost btn-circle avatar">
+                                                <div className="w-10 rounded-full">
+                                                    <img
+                                                    src={userData.userProfileUrl}
+                                                    alt={"profile"}/>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    <div className={"flex flex-col items-start"}>
+                                        <div className={"flex flex-row justify-center"}>
+                                            {/*<span className={"text-xs ml-1 "}>Posted by: </span>*/}
+                                            {
+                                                !userDataExists ? <span onClick={() => onClick(listing.userRef)} className={"text-sm ml-1 my-0 py-0 link"}>Click to see details</span>
+                                                : <div>
+                                                    <span className={"text-neutral text-sm ml-1 my-0 py-0"}>{userData.username}</span>
+                                                    <div className={"flex flex-row justify-center ml-1"}>
+                                                        {/*<span className={"text-xs ml-1"}>Posted on: </span>*/}
+                                                        <span className={"text-neutral text-sm my-0 py-0"}>{customDateStr}</span>
+                                                    </div>
+                                                </div>
+                                            }
+
                                         </div>
-                                    </div>
-                                    <div className={"flex flex-col justify-center ml-1"}>
-                                        <span className={"text-xs ml-1"}>Posted on: </span>
-                                        <span className={"text-neutral text-sm ml-1 my-0 py-0"}>{customDateStr}</span>
+
                                     </div>
                                 </div>
                             )}
