@@ -10,6 +10,8 @@ export const AuthProvider = ( {children} ) => {
 
     const initialState = {
         anonymousBoolean: false,
+        userData: {},
+        userProfileImg: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
 
     }
 
@@ -19,6 +21,8 @@ export const AuthProvider = ( {children} ) => {
         value={{
             dispatch,
             anonymousBoolean: state.anonymousBoolean,
+            userData: state.userData,
+            userProfileImg: state.userProfileImg
 
         }}>
         {children}
