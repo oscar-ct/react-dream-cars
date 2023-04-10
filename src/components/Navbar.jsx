@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, Link} from "react-router-dom";
 // import { ReactComponent as OfferIcon } from "../assets/svg/localOfferIcon.svg";
 // import { ReactComponent as ExploreIcon} from "../assets/svg/exploreIcon.svg";
@@ -6,6 +6,7 @@ import {useNavigate, Link} from "react-router-dom";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "../firebase.config";
+import AuthContext from "../context/AuthContext";
 
 
 
@@ -13,11 +14,12 @@ const Navbar = () => {
 
 
     const navigate = useNavigate();
+
     // const location = useLocation();
 
-    const [url, setUrl] = useState("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+    // const [url, setUrl] = useState("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
     const [isSignedIn, setIsSignedIn] = useState(false);
-
+    const { dispatch, userProfileImg } = useContext(AuthContext);
 
     useEffect(function() {
 
@@ -37,11 +39,20 @@ const Navbar = () => {
         const getAuthUser = async () => {
             const userRef = doc(db, "users", auth.currentUser.uid);
             const fetchUser = await getDoc(userRef);
-            setUrl(fetchUser.data().profileUrl);
+            const userData = fetchUser.data();
+            // setUrl(userData.photoUrl);
+            dispatch({
+                type: "SET_USER_PROFILE_IMG",
+                payload: userData.photoUrl,
+            })
             setIsSignedIn(true);
+            dispatch({
+                 type: "SET_USER_DATA",
+                 payload: userData,
+            });
         }
         console.log("using getAuthUser from nav useEffect")
-    }, [])
+    }, [dispatch]);
     
     // const pathMathRoute = (route) => {
     //     return route === location.pathname;
@@ -50,7 +61,11 @@ const Navbar = () => {
 
     const auth = getAuth();
     const onLogout = () => {
-        setUrl("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+        dispatch({
+            type: "SET_USER_PROFILE_IMG",
+            payload: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+        })
+        // setUrl("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
         setIsSignedIn(false);
         auth.signOut().then(navigate("/sign-in"));
     };
@@ -103,7 +118,7 @@ const Navbar = () => {
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
 
-                            <img src={url} alt={"profile"} />
+                            <img src={userProfileImg} alt={"profile"} />
                         </div>
                     </label>
                     <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-200 rounded-box w-52">
