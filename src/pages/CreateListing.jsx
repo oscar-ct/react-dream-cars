@@ -225,18 +225,18 @@ const CreateListing = () => {
             <div className={"w-full px-4 sm:px-12 lg:px-24 2xl:px-48 lg:pt-12"}>
 
                 <div className={"my-5 w-full  flex justify-center"}>
-                    <p className={"text-3xl text-zinc-800 font-light"}>Let's create a listing!</p>
+                    <p className={"text-3xl text-blue-500 font-light"}>Let's create a listing!</p>
                 </div>
 
                 <div className="card lg:card-side shadow-xl">
 
                     <div className="card-body">
-                        <h2 className="text-center text-lg font-bold">All fields are required.</h2>
+                        <h2 className="text-center text-lg font-bold italic">All fields are required.</h2>
 
                         <form onSubmit={onSubmit}>
                         <div className={"flex flex-col lg:flex-row w-full"}>
                             <div className={"w-full lg:w-6/12 "}>
-                                <p className={"pt-6 pb-3 lg:pb-6"}>Are you selling or rent your vehicle?<span className={"text-red-600 pl-1"}>*</span></p>
+                                <p className={"pt-6 pb-3 lg:pb-6"}>Are you selling or renting out your vehicle?<span className={"text-red-600 pl-1"}>*</span></p>
                                 <div className={"form-buttons justify-start"}>
                                     <button
                                         className={type === "sale" ? "form-button-active" : "form-button"}
@@ -259,7 +259,7 @@ const CreateListing = () => {
                                 </div>
                             </div>
                             <div className={"w-full lg:w-6/12 "}>
-                                <p className={"pt-6 pb-3 lg:pb-6"}>Title<span className={"text-red-600 pl-1"}>*</span></p>
+                                <p className={"pt-6 pb-3 lg:pb-6"}>Listing Title<span className={"text-red-600 pl-1"}>*</span></p>
                                 <div className={"flex"}>
                                     <input
                                         autoComplete={"off"}
@@ -397,9 +397,10 @@ const CreateListing = () => {
                                             type={"number"}
                                             id={"discountedPrice"}
                                             value={offer ? discountedPrice : 0}
-                                            className={ discountedPrice >= 50 && discountedPrice <= 750000000 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : (discountedPrice >= 750000001 || discountedPrice < 50) && discountedPrice !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
-                                            onChange={onMutate} min={50}
-                                            max={750000000}
+                                            className={ regularPrice - discountedPrice > 0 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : regularPrice - discountedPrice <= 0 && discountedPrice !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
+                                            onChange={onMutate}
+                                            min={0}
+                                            max={regularPrice}
                                             required={offer}
                                         />
                                     </div>
@@ -454,7 +455,7 @@ const CreateListing = () => {
                             <button
                                 type={"submit"}
                                 className="btn bg-primary"
-                                disabled={!(name.length >= 9 && name.length <= 32 && make.length >= 4 && make.length <= 12 && model.length >= 4 && model.length <= 12 && year >= 1900 && year <= 2024 && mileage >= 1 && mileage <= 1000000 && regularPrice >= 50 && regularPrice <= 750000000 && address.length >= 9 && address.length <= 64 && images.length >= 1 && images.length <= 6)}
+                                disabled={!(name.length >= 9 && name.length <= 32 && make.length >= 4 && make.length <= 12 && model.length >= 4 && model.length <= 12 && year >= 1900 && year <= 2024 && mileage >= 1 && mileage <= 1000000 && regularPrice >= 50 && regularPrice <= 750000000 && address.length >= 9 && address.length <= 64 && images.length >= 1 && images.length <= 6 && regularPrice - discountedPrice > 0)}
                             >
                                 Create
                             </button>
