@@ -105,7 +105,9 @@ const Navbar = () => {
                         <li><Link to={"/"}>Explore</Link></li>
                     </ul>
                 </div>
-                <span className="btn btn-ghost normal-case text-xl">ExoticsUI</span>
+                <Link to={"/"}>
+                    <span className="btn btn-ghost text-blue-800 rounded-box normal-case text-2xl md:text-3xl custom-font">Dream Cars</span>
+                </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -121,7 +123,7 @@ const Navbar = () => {
                             <img src={userProfileImg} alt={"profile"} />
                         </div>
                     </label>
-                    <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-200 rounded-box w-52">
+                    <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content dropdown-hover bg-base-200 rounded-box w-52">
 
                         {
                             isSignedIn ? <li>
@@ -134,7 +136,11 @@ const Navbar = () => {
 
                         {
                             isSignedIn ? <li><span onClick={() => onLogout()}>Logout</span></li> :
-                                <li><Link to={"/sign-in"}>Login</Link></li>
+                                <>
+                                    <li><Link to={"/sign-in"}>Login</Link></li>
+                                    <li><Link to={"/sign-up"}>Sign up</Link></li>
+                                </>
+
                         }
 
                     </ul>
