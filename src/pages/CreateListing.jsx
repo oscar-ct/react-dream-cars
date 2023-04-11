@@ -27,7 +27,7 @@ const CreateListing = () => {
         lat: 0,
         lon: 0,
     });
-    const [submit, setSubmit] = useState(false);
+
     const geolocationEnabled = useRef(true);
 
     const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN
@@ -222,9 +222,9 @@ const CreateListing = () => {
     return (
         <>
 
-            <div className={"w-full px-4 sm:px-12 lg:px-24 2xl:px-48 lg:pt-12"}>
+            <div className={"w-full px-4 sm:px-12 lg:px-24 2xl:px-48"}>
 
-                <div className={"my-5 w-full  flex justify-center"}>
+                <div className={"mt-12 mb-3 w-full  flex justify-center"}>
                     <p className={"text-3xl text-blue-500 font-light"}>Let's create a listing!</p>
                 </div>
 
@@ -288,7 +288,7 @@ const CreateListing = () => {
                                         type={"text"}
                                         id={"make"}
                                         // className={"input w-8/12 xl:w-6/12 text-sm sm:text-base"}
-                                        className={ make.length >= 4 && make.length <= 12 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : (make.length >= 13 || make.length < 4) && make.length !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
+                                        className={ make.length >= 1 && make.length <= 12 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : (make.length >= 13 || make.length < 1) && make.length !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
                                         onChange={onMutate}
                                         maxLength={24}
                                         minLength={1}
@@ -301,7 +301,7 @@ const CreateListing = () => {
                                         autoComplete={"off"}
                                         type={"text"}
                                         id={"model"}
-                                        className={ model.length >= 4 && model.length <= 12 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : (model.length >= 13 || model.length < 4) && model.length !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
+                                        className={ model.length >= 1 && model.length <= 12 ? "input-primary input input-bordered w-8/12 xl:w-6/12 text-sm sm:text-base" : (model.length >= 13 || model.length < 1) && model.length !== 0 ? "input-bordered input-error input w-8/12 xl:w-6/12 text-sm sm:text-base" : "input-bordered input w-8/12 xl:w-6/12 text-sm sm:text-base"}
                                         onChange={onMutate}
                                         maxLength={24}
                                         minLength={1}
@@ -455,7 +455,7 @@ const CreateListing = () => {
                             <button
                                 type={"submit"}
                                 className="btn bg-primary"
-                                disabled={!(name.length >= 9 && name.length <= 32 && make.length >= 4 && make.length <= 12 && model.length >= 4 && model.length <= 12 && year >= 1900 && year <= 2024 && mileage >= 1 && mileage <= 1000000 && regularPrice >= 50 && regularPrice <= 750000000 && address.length >= 9 && address.length <= 64 && images.length >= 1 && images.length <= 6 && regularPrice - discountedPrice > 0)}
+                                disabled={!(name.length >= 9 && name.length <= 32 && make.length >= 1 && make.length <= 12 && model.length >= 1 && model.length <= 12 && year >= 1900 && year <= 2024 && mileage >= 1 && mileage <= 1000000 && regularPrice >= 50 && regularPrice <= 750000000 && address.length >= 9 && address.length <= 64 && images.length >= 1 && images.length <= 6 && regularPrice - discountedPrice > 0)}
                             >
                                 Create
                             </button>
