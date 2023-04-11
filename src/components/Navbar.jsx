@@ -105,7 +105,7 @@ const Navbar = () => {
                         <li><Link to={"/"}>Explore</Link></li>
                     </ul>
                 </div>
-                <Link to={"/"}>
+                <Link to={"/"} className={"flex"}>
                     <span className="btn btn-ghost text-blue-800 rounded-box normal-case text-2xl md:text-3xl custom-font">Dream Cars</span>
                 </Link>
             </div>
