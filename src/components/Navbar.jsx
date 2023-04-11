@@ -123,7 +123,7 @@ const Navbar = () => {
                             <img src={userProfileImg} alt={"profile"} />
                         </div>
                     </label>
-                    <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content dropdown-hover bg-base-200 rounded-box w-52">
+                    <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-200 rounded-box w-52">
 
                         {
                             isSignedIn ? <li>
