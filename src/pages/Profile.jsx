@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { getAuth, updateProfile } from "firebase/auth";
 import {Link, useNavigate} from "react-router-dom";
-import {updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc, getDoc} from "firebase/firestore";
+import {updateDoc, doc, collection, getDocs, query, where, orderBy, deleteDoc} from "firebase/firestore";
 import { db } from "../firebase.config";
 import plusIcon from "../assets/svg/icons8-add-new-100.png"
 import ListingItem from "../components/ListingItem";
@@ -195,174 +195,200 @@ const Profile = () => {
     }
 
 
+    const onLogout = () => {
+        dispatch({
+            type: "SET_USER_PROFILE_IMG",
+            payload: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
+        })
+        // setUrl("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+        auth.signOut().then(navigate("/forgot-password"));
+    };
+
+
     return (
-
-        <div className={"mt-4 lg:mt-12"}>
-            {/*<div className={"profile"}>*/}
-            {/*    <header className={"profile-header"}>*/}
-            {/*        <p className={"page-header"}>My Profile</p>*/}
-            {/*        <button type={"button"} className={"logout"} onClick={onLogout}>*/}
-            {/*            Logout*/}
-            {/*        </button>*/}
-            {/*    </header>*/}
-            {/*    <main>*/}
-            {/*        <div className={"profile-details-header"}>*/}
-            {/*            <p className={"personal-details-text"}>Personal Details</p>*/}
-            {/*            <p className={"change-personal-details"} onClick={() => {*/}
-            {/*                changeDetails && submitChangeDetails();*/}
-            {/*                setChangeDetails(prevState => !prevState);*/}
-            {/*            }}>{changeDetails ? "Done" : "Change"}*/}
-            {/*            </p>*/}
-            {/*        </div>*/}
-            {/*        <div className={"profile-card"}>*/}
-            {/*            <form>*/}
-            {/*                <input*/}
-            {/*                    type={"text"}*/}
-            {/*                    id={"name"}*/}
-            {/*                    className={!changeDetails ? "profile-name" : "profile-name-active"}*/}
-            {/*                    disabled={!changeDetails}*/}
-            {/*                    value={name}*/}
-            {/*                    onChange={onChangePersonalDetails}*/}
-            {/*                />*/}
-            {/*                <input*/}
-            {/*                    type={"text"}*/}
-            {/*                    id={"email"}*/}
-            {/*                    className={!changeDetails ? "profile-email" : "profile-email-active"}*/}
-            {/*                    disabled={true}*/}
-            {/*                    value={email}*/}
-            {/*                    onChange={onChangePersonalDetails}*/}
-            {/*                />*/}
-            {/*            </form>*/}
-            {/*        </div>*/}
-
-            {/*        <Link to={"/create-listing"} className={"create-listing"}>*/}
-            {/*            <img src={homeIcon} alt={"home"}/>*/}
-            {/*            <p>Sell or rent your vehicle</p>*/}
-            {/*            <img src={arrowRight} alt={"right arrow"}/>*/}
-            {/*        </Link>*/}
-
-            {/*        {!loading && listingsState?.length > 0 ? (*/}
-            {/*            <>*/}
-            {/*                <p>Your Listings</p>*/}
-            {/*                <div className={"flex justify-center"}>*/}
-            {/*                    {listingsState.map(function (listing) {*/}
-            {/*                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id} onDelete={() => deleteListing(listing.id, listing.data.name)} onEdit={() => editListingNav(listing.id)}/>*/}
-            {/*                    })}*/}
-            {/*                </div>*/}
-            {/*            </>*/}
-            {/*        ) : <p>You have no listings yet</p>}*/}
-
-            {/*    </main>*/}
-            {/*</div>*/}
-
-                <main className={"flex flex-col"}>
-
+        <>
+            <div className="alert shadow-lg">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info flex-shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div>
-                        <div className={"flex flex-col w-full px-4 sm:px-12"}>
-                            <p className={"text-3xl text-blue-400 font-light"}>Account Details</p>
-                            <div className={"my-10 flex justify-between"}>
-                                <p className={"text-md text-zinc-400 font-light"}>Click the edit icon to update account details.</p>
-                                {!changeDetails ?
-                                    <button className={"btn btn-primary btn-xs sm:btn-sm"} onClick={() => {onClick()}}>Edit</button>
-                                    // <EditIcon style={{cursor: "pointer"}} className={"mt-3 mr-3 mb-1"} fill={"neutral"} />
-                                    :
-                                    <div>
-                                        <button className="btn btn-error btn-xs sm:btn-sm" onClick={() => {onClickCancel()}}>Cancel</button>
-                                        <button className="btn btn-success btn-xs sm:btn-sm" onClick={() => {onClick()}}>Save</button>
-                                   </div>
-                                }
-                            </div>
-                            <div className="flex items-center">
+                        <h3 className="font-light">Want to change your password? Use the reset password tool. </h3>
+                    </div>
+                </div>
+                <div className="flex-none">
+                    <button onClick={() => onLogout()} className="btn btn-sm">Change Password</button>
+                </div>
+            </div>
 
-                                <div className={"w-2/6 sm:w-3/6 flex flex-col"}>
-                                    <div className={"flex justify-end py-6 pr-6"}>
-                                        <p className={"text-sm sm:text-base"}>Account Name:</p>
-                                    </div>
-                                    <div className={"flex justify-end py-6 pr-6"}>
-                                        <p className={"text-sm sm:text-base"}>Email:</p>
-                                    </div>
-                                    <div className={"flex justify-end py-6 pr-6"}>
-                                        <p className={"text-sm sm:text-base"}>Profile Picture:</p>
-                                    </div>
+            <div className={"mt-4 lg:mt-6"}>
+
+                {/*<div className={"profile"}>*/}
+                {/*    <header className={"profile-header"}>*/}
+                {/*        <p className={"page-header"}>My Profile</p>*/}
+                {/*        <button type={"button"} className={"logout"} onClick={onLogout}>*/}
+                {/*            Logout*/}
+                {/*        </button>*/}
+                {/*    </header>*/}
+                {/*    <main>*/}
+                {/*        <div className={"profile-details-header"}>*/}
+                {/*            <p className={"personal-details-text"}>Personal Details</p>*/}
+                {/*            <p className={"change-personal-details"} onClick={() => {*/}
+                {/*                changeDetails && submitChangeDetails();*/}
+                {/*                setChangeDetails(prevState => !prevState);*/}
+                {/*            }}>{changeDetails ? "Done" : "Change"}*/}
+                {/*            </p>*/}
+                {/*        </div>*/}
+                {/*        <div className={"profile-card"}>*/}
+                {/*            <form>*/}
+                {/*                <input*/}
+                {/*                    type={"text"}*/}
+                {/*                    id={"name"}*/}
+                {/*                    className={!changeDetails ? "profile-name" : "profile-name-active"}*/}
+                {/*                    disabled={!changeDetails}*/}
+                {/*                    value={name}*/}
+                {/*                    onChange={onChangePersonalDetails}*/}
+                {/*                />*/}
+                {/*                <input*/}
+                {/*                    type={"text"}*/}
+                {/*                    id={"email"}*/}
+                {/*                    className={!changeDetails ? "profile-email" : "profile-email-active"}*/}
+                {/*                    disabled={true}*/}
+                {/*                    value={email}*/}
+                {/*                    onChange={onChangePersonalDetails}*/}
+                {/*                />*/}
+                {/*            </form>*/}
+                {/*        </div>*/}
+
+                {/*        <Link to={"/create-listing"} className={"create-listing"}>*/}
+                {/*            <img src={homeIcon} alt={"home"}/>*/}
+                {/*            <p>Sell or rent your vehicle</p>*/}
+                {/*            <img src={arrowRight} alt={"right arrow"}/>*/}
+                {/*        </Link>*/}
+
+                {/*        {!loading && listingsState?.length > 0 ? (*/}
+                {/*            <>*/}
+                {/*                <p>Your Listings</p>*/}
+                {/*                <div className={"flex justify-center"}>*/}
+                {/*                    {listingsState.map(function (listing) {*/}
+                {/*                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id} onDelete={() => deleteListing(listing.id, listing.data.name)} onEdit={() => editListingNav(listing.id)}/>*/}
+                {/*                    })}*/}
+                {/*                </div>*/}
+                {/*            </>*/}
+                {/*        ) : <p>You have no listings yet</p>}*/}
+
+                {/*    </main>*/}
+                {/*</div>*/}
+
+                    <main className={"flex flex-col"}>
+
+
+                        <div>
+                            <div className={"flex flex-col w-full px-4 sm:px-12"}>
+                                <p className={"text-3xl text-blue-400 font-light"}>Account Details</p>
+                                <div className={"mt-10 flex justify-between"}>
+                                    <p className={"text-md text-zinc-400 font-light"}>Click the edit icon to update account details.</p>
+                                    {!changeDetails ?
+                                        <button className={"btn btn-primary btn-xs sm:btn-sm"} onClick={() => {onClick()}}>Edit</button>
+                                        // <EditIcon style={{cursor: "pointer"}} className={"mt-3 mr-3 mb-1"} fill={"neutral"} />
+                                        :
+                                        <div className={"flex"}>
+                                            <button className="btn btn-error btn-xs sm:btn-sm mr-1" onClick={() => {onClickCancel()}}>Cancel</button>
+                                            <button className="btn btn-success btn-xs sm:btn-sm" onClick={() => {onClick()}}>Save</button>
+                                       </div>
+                                    }
                                 </div>
-                                <div className="w-4/6 sm:w-3/6 flex flex-col">
-                                    <div className={"flex justify-start p-3"}>
-                                        <input
-                                            autoComplete={"off"}
-                                            type={"text"}
-                                            id={"name"}
-                                            className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
-                                            disabled={!changeDetails}
-                                            value={userData === {} ? auth.currentUser.displayName : updatedFormData.name}
-                                            onChange={onChangePersonalDetails}
-                                        />
-                                    </div>
+                                <div className="pt-6 lg:pt-0 flex items-center">
 
-                                    <div className={"flex justify-start p-3"}>
-                                        <input
-                                            autoComplete={"off"}
-                                            type={"text"}
-                                            id={"email"}
-                                            className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
-                                            disabled={true}
-                                            value={userData === {} ? auth.currentUser.email : updatedFormData.email}
-                                            onChange={onChangePersonalDetails}
-                                        />
+                                    <div className={"w-2/6 sm:w-3/6 flex flex-col"}>
+                                        <div className={"flex justify-end py-6 pr-6"}>
+                                            <p className={"text-sm sm:text-base"}>Account Name:</p>
+                                        </div>
+                                        <div className={"flex justify-end py-6 pr-6"}>
+                                            <p className={"text-sm sm:text-base"}>Email:</p>
+                                        </div>
+                                        <div className={"flex justify-end py-6 pr-6"}>
+                                            <p className={"text-sm sm:text-base"}>Profile Picture:</p>
+                                        </div>
                                     </div>
-                                    <div className={"flex justify-start p-3"}>
-                                        <input
-                                            type={"file"}
-                                            accept={".jpg,.png,.jpeg"}
-                                            id={"images"}
-                                            disabled={!changeDetails}
-                                            max={1}
-                                            className={"file-input file-input-bordered file-input-primary w-full max-w-xs text-sm sm:text-base"}
-                                            onChange={onChangePersonalDetails}
-                                        />
+                                    <div className="w-4/6 sm:w-3/6 flex flex-col">
+                                        <div className={"flex justify-start p-3"}>
+                                            <input
+                                                autoComplete={"off"}
+                                                type={"text"}
+                                                id={"name"}
+                                                className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
+                                                disabled={!changeDetails}
+                                                value={userData === {} ? auth.currentUser.displayName : updatedFormData.name}
+                                                onChange={onChangePersonalDetails}
+                                            />
+                                        </div>
+
+                                        <div className={"flex justify-start p-3"}>
+                                            <input
+                                                autoComplete={"off"}
+                                                type={"text"}
+                                                id={"email"}
+                                                className={!changeDetails ? "input input-primary w-full max-w-xs text-sm sm:text-base" : " text-sm sm:text-base input input-primary w-full max-w-xs"}
+                                                disabled={true}
+                                                value={userData === {} ? auth.currentUser.email : updatedFormData.email}
+                                                onChange={onChangePersonalDetails}
+                                            />
+                                        </div>
+                                        <div className={"flex justify-start p-3"}>
+                                            <input
+                                                type={"file"}
+                                                accept={".jpg,.png,.jpeg"}
+                                                id={"images"}
+                                                disabled={!changeDetails}
+                                                max={1}
+                                                className={"file-input file-input-bordered file-input-primary w-full max-w-xs text-sm sm:text-base"}
+                                                onChange={onChangePersonalDetails}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
 
-                    <div className={"my-5 w-full px-4 sm:px-12"}>
-                        <p className={"text-3xl text-blue-400 font-light"}>My Listings</p>
-                    </div>
-                    <div className={"flex flex-col items-center"}>
-                        {!loading && listingsState?.length > 0 ? (
-                            <>
+                        <div className={"mb-5 pt-3 lg:pt-0 w-full px-4 sm:px-12"}>
+                            <p className={"text-3xl text-blue-400 font-light"}>My Listings (<span className={""}>{listingsState?.length}</span>)</p>
+                        </div>
+                        <div className={"flex flex-col items-center"}>
+                            {!loading && listingsState?.length > 0 ? (
+                                <>
+                                    <div className={"flex flex-col lg:flex-row lg:justify-center w-full items-center"}>
+
+                                        <div className={"flex justify-center flex-wrap"}>
+                                            <Link to={"/create-listing"} className="rounded grid w-11/12 md:w-9/12 lg:w-[32rem] h-28 lg:h-auto card bg-base-200 rounded-box place-items-center m-2 shadow-lg">
+                                                <img className={"h-8 lg:h-14"} src={plusIcon} alt={"plus"}/>
+                                            </Link>
+                                        {listingsState.map(function (listing) {
+                                            return <ListingItem key={listing.id} listing={listing.data} id={listing.id} onDelete={() => deleteListing(listing.id, listing.data.name)} onEdit={() => editListingNav(listing.id)}/>
+                                        })}
+                                        </div>
+                                    </div>
+                                </>
+                            ) : <>
+                                <div className={"mt-5"}>
+                                    <p className={"text-lg font-bold"}>No listings</p>
+                                </div>
                                 <div className={"flex flex-col lg:flex-row lg:justify-center w-full items-center"}>
-
                                     <div className={"flex justify-center flex-wrap"}>
-                                        <Link to={"/create-listing"} className="grid w-11/12 md:w-9/12 lg:w-96 h-20 lg:h-auto card bg-base-300 rounded-box place-items-center m-2 shadow-lg">
-                                            <img className={"h-8 lg:h-14"} src={plusIcon} alt={"plus"}/>
+                                        <Link to={"/create-listing"} className="grid w-96 h-96  card bg-base-300 rounded-box place-items-center m-2 shadow-lg">
+                                        <img className={"h-8 lg:h-14"} src={plusIcon} alt={"plus"}/>
                                         </Link>
-                                    {listingsState.map(function (listing) {
-                                        return <ListingItem key={listing.id} listing={listing.data} id={listing.id} onDelete={() => deleteListing(listing.id, listing.data.name)} onEdit={() => editListingNav(listing.id)}/>
-                                    })}
                                     </div>
                                 </div>
                             </>
-                        ) : <>
-                            <div className={"mt-5"}>
-                                <p className={"text-lg font-bold"}>No listings</p>
-                            </div>
-                            <div className={"flex flex-col lg:flex-row lg:justify-center w-full items-center"}>
-                                <div className={"flex justify-center flex-wrap"}>
-                                    <Link to={"/create-listing"} className="grid w-96 h-96  card bg-base-300 rounded-box place-items-center m-2 shadow-lg">
-                                    <img className={"h-8 lg:h-14"} src={plusIcon} alt={"plus"}/>
-                                    </Link>
-                                </div>
-                            </div>
-                        </>
-                        }
-                    </div>
+                            }
+                        </div>
 
-                </main>
+                    </main>
 
-        </div>
+            </div>
+        </>
+
     );
 
 };
