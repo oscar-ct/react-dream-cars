@@ -82,9 +82,14 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
         //
         // </li>
 
-                <div className="card w-11/12 md:w-9/12 lg:w-96 bg-base-100 list-max-height shadow-xl m-2">
+
+
+                <div className="card w-11/12 md:w-9/12 lg:w-[32rem] bg-base-100 list-max-height shadow-sm m-2 rounded">
+
+
+
                     <figure>
-                        <Link to={`/category/${type}/${id}`}><img src={imageUrls[0]} alt={name} />
+                        <Link to={`/category/${type}/${id}`}><img src={imageUrls[0]} alt={name} className={"hover:opacity-75"}/>
                             { type === "rent" ?
                                 <p className={"list-text-rent"}>Rental</p>
                                 :
@@ -93,14 +98,14 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                         </Link>
 
                     </figure>
-                    <div className="card-body pb-5 px-5 pt-0">
+                    <div className="card-body pb-5 px-5-0 pt-0">
                         { offer ? <span className={"list-text-discounted text-xs"}>Discounted</span> : <span className={"list-text-discounted-false text-xs"}>.</span>}
                         <h2 className="card-title mt-0 pt-0">
                             {name}
                         </h2>
                         <p className={"text-sm"}> {location.replace(", United States", "")}</p>
 
-                        <div className="stats shadow bg-base-200 my-2">
+                        <div className="stats rounded shadow bg-base-200 my-2">
                             <div className="stat px-1 py-1 place-items-center">
                                 <div className="stat-title text-sm">Year</div>
                                 <div className="text-md font-bold">{year}</div>
@@ -156,7 +161,7 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                                         <div className={"flex flex-row justify-center"}>
                                             {/*<span className={"text-xs ml-1 "}>Posted by: </span>*/}
                                             {
-                                                !userDataExists ? <span onClick={() => onClick(listing.userRef)} className={"text-sm ml-1 my-0 py-0 link"}>Click to see details</span>
+                                                !userDataExists ? <span onClick={() => onClick(listing.userRef)} className={"text-sm ml-1 my-0 py-0 link text-neutral/80 hover:text-neutral"}>Click to see details</span>
                                                 : <div>
                                                     <span className={"text-neutral text-sm ml-1 my-0 py-0"}>{userData.username}</span>
                                                     <div className={"flex flex-row justify-center ml-1"}>
@@ -173,14 +178,14 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                             )}
                             </div>
                             <div>
-                                <div className={"flex flex-col items-center"}>
-                                    <div className={"mr-1 mt-1"}>
+                                <div className={"flex flex-col items-end"}>
+                                    <div className={"mt-1"}>
                                         {type === "rent" ?
                                             <span className={"text-neutral text-sm font-bold"}>
-                                                Daily Rate
+                                                Daily Rate:
                                             </span>
                                         :   <span className={"text-neutral text-sm font-bold"}>
-                                                List Price
+                                                List Price:
                                             </span>
                                         }
                                     </div>
@@ -189,12 +194,12 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                                             <span className={"line-through text-md"}>
                                                 ${regularPrice}
                                             </span>
-                                            <span className={" pl-1 text-green-400 font-bold text-xl"}>
+                                            <span className={" pl-1 text-green-400 font-light text-xl"}>
                                                 ${discountedPrice}
                                             </span>
                                         </div>
                                     :
-                                        <span className={"text-green-400 font-bold text-xl"}>
+                                        <span className={"text-green-400 font-light text-xl"}>
                                             ${regularPrice}
                                         </span>
                                     }
