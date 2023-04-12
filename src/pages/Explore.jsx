@@ -6,7 +6,7 @@ const Explore = () => {
         <div className={"2xl:mx-48 bg-white min-h-screen"}>
             <main>
 
-                    <div className={"py-8 lg:py-10 flex justify-center"}>
+                    <div className={"pb-8 md:py-10 flex justify-center"}>
                         <h1 className="text-3xl font-light text-center text-blue-400">To get started, select a category to view.</h1>
                     </div>
                 <Slider/>
