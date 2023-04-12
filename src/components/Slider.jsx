@@ -82,8 +82,8 @@ const Slider = () => {
                         </SwiperSlide>
                     })}
                 </Swiper>
-                <div className={"bg-black flex justify-center"}>
-                    <Link to={"/category/rent"} className={"btn btn-primary px-24 my-2"}>
+                <div className={"flex justify-center"}>
+                    <Link to={"/category/rent"} className={"btn btn-primary px-12 my-2"}>
                         Rent
                     </Link>
                 </div>
@@ -123,8 +123,8 @@ const Slider = () => {
 
                     })}
                 </Swiper>
-                <div className={"flex bg-black justify-center"}>
-                    <Link to={"/category/sale"} className={"btn btn-primary px-20 my-2"}>
+                <div className={"flex justify-center"}>
+                    <Link to={"/category/sale"} className={"btn btn-primary px-8 my-2"}>
                         Purchase
                     </Link>
                 </div>
