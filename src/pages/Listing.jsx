@@ -117,7 +117,7 @@ const Listing = () => {
                                             </div>
                                         </div>
                                         <div className={"pl-3"}>
-                                            <div className="font-bold text-xl lg:text-3xl">{customDateStr}</div>
+                                            <div className="font-bold text-2xl lg:text-3xl">{customDateStr}</div>
                                             <div className="stat-title">Date Posted</div>
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@ const Listing = () => {
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>*/}
                                     {/*</div>*/}
                                     <div className="stat-title">{ type === "rent" ? "Daily Rate" : "List Price"}{offer && <span className={"pl-2 text-xs"}>(Discounted)</span>}</div>
-                                    <div className="font-bold text-xl lg:text-3xl">${offer ? discountedPrice : regularPrice}</div>
+                                    <div className="font-bold text-3xl font-light text-green-400">${offer ? discountedPrice : regularPrice}</div>
                                     {
                                         offer &&   <div className="stat-desc text-red-600 ">Original price: <span className={"line-through"}>${regularPrice}</span></div>
                                     }
@@ -151,28 +151,28 @@ const Listing = () => {
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>*/}
                                     {/*</div>*/}
                                     <div className="stat-title">Year</div>
-                                    <div className="font-bold text-xl lg:text-3xl">{year}</div>
+                                    <div className="font-bold text-2xl lg:text-3xl">{year}</div>
                                 </div>
                                 <div className="stat">
                                     {/*<div className="stat-figure text-primary">*/}
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>*/}
                                     {/*</div>*/}
                                     <div className="stat-title">Make</div>
-                                    <div className="font-bold text-xl lg:text-3xl">{make}</div>
+                                    <div className="font-bold text-2xl lg:text-3xl">{make}</div>
                                 </div>
                                 <div className="stat">
                                     {/*<div className="stat-figure text-secondary">*/}
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>*/}
                                     {/*</div>*/}
                                     <div className="stat-title">Model</div>
-                                    <div className="font-bold text-xl lg:text-3xl">{model}</div>
+                                    <div className="font-bold text-2xl lg:text-3xl">{model}</div>
                                 </div>
                                 <div className="stat">
                                     <div className="stat-figure text-secondary">
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>*/}
                                     </div>
                                     <div className="stat-title">Mileage</div>
-                                    <div className="font-bold text-xl lg:text-3xl">{mileage}</div>
+                                    <div className="font-bold text-2xl lg:text-3xl">{mileage}</div>
                                     {
                                        mileage < 10000 &&  <div className="stat-desc text-primary">Low miles!</div>
                                     }
