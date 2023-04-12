@@ -59,8 +59,7 @@ const Slider = () => {
     return rentalListings && (
         <div className={"w-full flex flex-col lg:flex-row"}>
 
-            <div className={"w-full lg:w-6/12"}>
-                <div className={"bg-black h-4"}/>
+            <div className={"w-full lg:w-6/12 border-y-1 border-black"}>
                 {/*<div className={"link flex py-1 justify-center bg-purple-400 hover:bg-neutral-focus/50"}>*/}
                 {/*    <Link to={"/category/rent"} className={"text-white link"}>Click here to view all our rentals</Link>*/}
                 {/*</div>*/}
@@ -90,8 +89,7 @@ const Slider = () => {
                 </div>
 
             </div>
-            <div className={"w-full lg:w-6/12"}>
-                <div className={"bg-black h-4"}/>
+            <div className={"w-full lg:w-6/12 border-y-1 border-black"}>
                 {/*<div className={"link flex py-1 justify-center bg-green-300 hover:bg-neutral-focus/50"}>*/}
                 {/*    <Link to={"/category/sale"} className={"text-white link"}>Click here to view all our vehicles for sell</Link>*/}
                 {/*</div>*/}

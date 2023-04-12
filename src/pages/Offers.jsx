@@ -67,7 +67,7 @@ const Offers = () => {
 
     return (
         <div>
-            <div className={"flex justify-center my-12"}>
+            <div className={"flex justify-center my-3 md:my-12"}>
                 <p className={"text-3xl font-light text-center text-blue-400"}>
                     Check out some of our <span className={"font-bold"}>discounted</span> listings.
                 </p>
@@ -75,7 +75,7 @@ const Offers = () => {
             {loading ?
                 <h1>Loading...</h1>
                 : listings && listings.length > 0 ?
-                    <div className={"flex justify-center lg:mt-12"}>
+                    <div className={"flex justify-center"}>
                         <div className={"flex flex-col items-center lg:flex-row lg:flex-wrap justify-center"}>
                             {listings.map(function (listing) {
                                     return <ListingItem key={listing.id} listing={listing.data} id={listing.id}/>

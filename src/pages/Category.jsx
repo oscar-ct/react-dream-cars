@@ -73,7 +73,7 @@ const Category = () => {
 
     return (
         <div>
-            <div className={"flex justify-center my-12"}>
+            <div className={"flex justify-center my-3 md:my-12"}>
                 { params.categoryName === "rent" ? (
                     <p className={"text-3xl font-light text-center text-blue-400"}>
                         Vehicles available for <span className={"font-bold"}>rent</span> around your area.
