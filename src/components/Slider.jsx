@@ -60,11 +60,7 @@ const Slider = () => {
         <div className={"w-full flex flex-col lg:flex-row"}>
 
             <div className={"w-full lg:w-6/12"}>
-                <div className={"flex justify-center"}>
-                    <Link to={"/category/rent"} className={"btn btn-primary px-24 my-2"}>
-                        Rent
-                    </Link>
-                </div>
+                <div className={"bg-black h-4"}/>
                 {/*<div className={"link flex py-1 justify-center bg-purple-400 hover:bg-neutral-focus/50"}>*/}
                 {/*    <Link to={"/category/rent"} className={"text-white link"}>Click here to view all our rentals</Link>*/}
                 {/*</div>*/}
@@ -87,17 +83,20 @@ const Slider = () => {
                         </SwiperSlide>
                     })}
                 </Swiper>
+                <div className={"bg-black flex justify-center"}>
+                    <Link to={"/category/rent"} className={"btn btn-primary px-24 my-2"}>
+                        Rent
+                    </Link>
+                </div>
 
             </div>
             <div className={"w-full lg:w-6/12"}>
-                <div className={"flex justify-center"}>
-                    <Link to={"/category/sale"} className={"btn btn-primary px-24 my-2"}>
-                        Buy
-                    </Link>
-                </div>
+                <div className={"bg-black h-4"}/>
                 {/*<div className={"link flex py-1 justify-center bg-green-300 hover:bg-neutral-focus/50"}>*/}
                 {/*    <Link to={"/category/sale"} className={"text-white link"}>Click here to view all our vehicles for sell</Link>*/}
                 {/*</div>*/}
+
+
                 <Swiper slidesPerView={1} pagination={{clickable: true}} navigation>
                     {saleListings.map(function ({data, id}) {
                         return <SwiperSlide key={id} >
@@ -126,6 +125,11 @@ const Slider = () => {
 
                     })}
                 </Swiper>
+                <div className={"flex bg-black justify-center"}>
+                    <Link to={"/category/sale"} className={"btn btn-primary px-20 my-2"}>
+                        Purchase
+                    </Link>
+                </div>
             </div>
         </div>
     )
