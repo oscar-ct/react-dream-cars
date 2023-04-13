@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Yellowtail&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Zen+Dots&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -31,7 +31,7 @@ button {
     border: none;
 }
 .custom-font {
-    font-family: 'Yellowtail', cursive;
+    font-family: 'Zen Dots', cursive;
 }
 .show-password-img {
     transform: translateY(-40px)translateX(-10px);
@@ -40,6 +40,36 @@ button {
 .border-white {
     height: 1px;
     border-bottom: solid 1px #313030;
+}
+/*.explore-bg {*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*    background-image: url("https://images.unsplash.com/photo-1508233620467-f79f1e317a05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80");*/
+/*    background-position: center;*/
+/*}*/
+
+
+.explore-bg {
+    position: relative;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+}
+
+.explore-bg::before {
+    content: "";
+    background-image: url("https://images.unsplash.com/photo-1508233620467-f79f1e317a05?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80");
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0.75;
+    background-repeat: no-repeat;
+    z-index: -1;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 .list-text-rent {
@@ -274,7 +304,7 @@ button {
 }
 .swipe-img {
     /*width: 100%;*/
-    max-height: 400px;
+    max-height: 532px;
     width: 100%;
     object-fit: cover;
 
@@ -322,12 +352,13 @@ button {
 @media screen and (max-width: 768px) {
     .swiper-slide-text-link {
         padding: 0.5rem 1rem;
-        font-size: 14px;
+        font-size: 18px;
     }
     .swiper-slide-text {
-        font-size: 14px;
+        font-size: 18px;
     }
     .swipe-img {
+
         /*width: 100%;*/
         /*max-height: 500px;*/
         /*width: 100%;*/
