@@ -77,9 +77,9 @@ const Listing = () => {
             return (
                 <main className={"2xl:px-48"}>
                     {auth.currentUser?.uid !== userRef && (
-                    <div className="alert shadow-lg">
+                    <div className="alert alert-info shadow-lg">
                         <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info flex-shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-current flex-shrink-0 w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <div>
                                 <h3 className="font-bold">Interested? Message the owner now before its gone!</h3>
                                 {/*<div className="text-xs">985 views</div>*/}
@@ -128,7 +128,7 @@ const Listing = () => {
                                         {/*<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>*/}
                                     {/*</div>*/}
                                     <div className="stat-title">{ type === "rent" ? "Daily Rate" : "List Price"}{offer && <span className={"pl-2 text-xs"}>(Discounted)</span>}</div>
-                                    <div className="font-bold text-3xl font-light text-green-400">${offer ? discountedPrice : regularPrice}</div>
+                                    <div className="flex font-bold text-3xl font-light text-green-400">${offer ? discountedPrice  : regularPrice}<div className={"flex items-start"}><span className={"text-sm"}>USD</span></div></div>
                                     {
                                         offer &&   <div className="stat-desc text-red-600 ">Original price: <span className={"line-through"}>${regularPrice}</span></div>
                                     }

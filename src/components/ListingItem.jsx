@@ -190,18 +190,25 @@ const ListingItem = ( { listing, id, onDelete, onEdit } ) => {
                                         }
                                     </div>
                                     {offer ?
-                                        <div>
-                                            <span className={"line-through text-md"}>
+                                        <div className={"flex items-start"}>
+                                            <div className={"line-through pt-1 text-md"}>
                                                 ${regularPrice}
-                                            </span>
-                                            <span className={" pl-1 text-green-400 font-light text-xl"}>
+                                            </div>
+                                            <div className={"pl-1 text-green-400 font-light text-xl"}>
                                                 ${discountedPrice}
-                                            </span>
+                                            </div>
+                                            <div className={"flex"}>
+                                                <span className={"text-xs text-green-400 pt-1 items-start"}>USD</span>
+                                            </div>
                                         </div>
-                                    :
-                                        <span className={"text-green-400 font-light text-xl"}>
-                                            ${regularPrice}
-                                        </span>
+                                    :   <div className={"flex"}>
+                                            <div className={"text-green-400 font-light text-xl"}>
+                                                ${regularPrice}
+                                            </div>
+                                            <div className={"flex"}>
+                                                <span className={"text-xs text-green-400 pt-1 items-start"}>USD</span>
+                                            </div>
+                                        </div>
                                     }
                                 </div>
                             </div>
