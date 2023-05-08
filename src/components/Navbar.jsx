@@ -106,7 +106,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <Link to={"/"} className={"flex"}>
-                    <span className="btn btn-ghost text-neutral rounded-box normal-case text-2xl md:text-3xl custom-font">Dream Cars</span>
+                    <span className="btn btn-ghost text-neutral rounded-box normal-case text-2xl custom-font">Dream Cars</span>
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
